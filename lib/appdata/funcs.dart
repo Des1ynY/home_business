@@ -13,12 +13,29 @@ EdgeInsetsGeometry getPadding(BuildContext context) {
   );
 }
 
-bool isValidPhone(String? value) {
-  if (value != null) {
-    return RegExp(r'^((8|\+7)[\- ]?)?(\(?\d{3,4}\)?[\- ]?)?[\d\- ]{5,10}$')
-        .hasMatch(value);
+String? isValidPhoneNumber(String? phone) {
+  if (phone == null || phone.isEmpty) return 'Укажите номер';
+  if (phone.length < 11) return 'Неправильно набран номер';
+
+  var pattern =
+      r'(^((8|\+7)[\- ]?)?\(?\d{3,5}\)?[\- ]?\d{1}[\- ]?\d{1}[\- ]?\d{1}[\- ]?\d{1}[\- ]?\d{1}(([\- ]?\d{1})?[\- ]?\d{1})?$)';
+
+  return RegExp(pattern).hasMatch(phone) ? null : 'Неправильно набран номер';
+}
+
+String makePhoneValid(String phone) {
+  var result = StringBuffer(phone.startsWith('+') ? '+' : '+7');
+
+  for (var i = 1; i < phone.length; i++) {
+    try {
+      int.parse(phone[i]);
+      result.write(phone[i]);
+    } on FormatException {
+      continue;
+    }
   }
-  return false;
+
+  return result.toString();
 }
 
 bool isValidEmail(String? value) {

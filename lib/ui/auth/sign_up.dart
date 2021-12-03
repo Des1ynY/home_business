@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -19,8 +18,8 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  String _phone = '', _code = '', _verificationID = '';
-  bool _codeSend = false, _isLoading = false;
+  String _phone = '', _otp = '', _verificationID = '';
+  bool _otpSend = false, _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +41,7 @@ class _SignUpState extends State<SignUp> {
                     Container(
                       margin: const EdgeInsets.only(top: 35),
                       child: Text(
-                        'Зарегистрируйтесь',
+                        'Добро пожаловать',
                         style: Theme.of(context).textTheme.headline1,
                       ),
                     ),
@@ -63,7 +62,7 @@ class _SignUpState extends State<SignUp> {
                         style: Theme.of(context).textTheme.headline2,
                       ),
                       Container(
-                        margin: EdgeInsets.only(bottom: _codeSend ? 30 : 0),
+                        margin: EdgeInsets.only(bottom: _otpSend ? 30 : 0),
                         child: TextFormField(
                           decoration: const InputDecoration(
                             counterText: '',
@@ -75,23 +74,21 @@ class _SignUpState extends State<SignUp> {
                             color: textColor,
                           ),
                           cursorColor: primaryColor,
-                          keyboardType: TextInputType.number,
-                          maxLength: 12,
-                          enabled: !_codeSend,
+                          keyboardType: TextInputType.phone,
+                          maxLength: 18,
+                          enabled: !_otpSend,
                           onChanged: (value) => _phone = value,
-                          validator: (value) => isValidPhone(value)
-                              ? null
-                              : 'Некорректно набран номер',
-                          onFieldSubmitted: (value) => _sendCode(),
+                          validator: (value) => isValidPhoneNumber(value),
+                          onFieldSubmitted: (value) => _sendOTP(),
                         ),
                       ),
-                      _codeSend
+                      _otpSend
                           ? Text(
                               'Код потверждения',
                               style: Theme.of(context).textTheme.headline2,
                             )
                           : const SizedBox(),
-                      _codeSend
+                      _otpSend
                           ? Container(
                               margin: const EdgeInsets.only(bottom: 5),
                               child: TextFormField(
@@ -106,13 +103,13 @@ class _SignUpState extends State<SignUp> {
                                 ),
                                 cursorColor: primaryColor,
                                 keyboardType: TextInputType.number,
-                                maxLength: 8,
-                                onChanged: (value) => _code = value,
-                                onFieldSubmitted: (value) => _submit(),
+                                maxLength: 6,
+                                onChanged: (value) => _otp = value,
+                                onFieldSubmitted: (value) => _login(),
                               ),
                             )
                           : const SizedBox(),
-                      _codeSend
+                      _otpSend
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -121,7 +118,8 @@ class _SignUpState extends State<SignUp> {
                                   height: 30,
                                   child: RawMaterialButton(
                                     onPressed: () => setState(() {
-                                      _codeSend = false;
+                                      _otpSend = false;
+                                      _verificationID = '';
                                     }),
                                     elevation: 0,
                                     child: const Text(
@@ -148,7 +146,7 @@ class _SignUpState extends State<SignUp> {
                     borderRadius: BorderRadius.circular(buttonBorderRadius),
                   ),
                   child: RawMaterialButton(
-                    onPressed: () => _codeSend ? _submit() : _sendCode(),
+                    onPressed: () => _otpSend ? _login() : _sendOTP(),
                     elevation: 0,
                     child: !_isLoading
                         ? Text(
@@ -164,10 +162,10 @@ class _SignUpState extends State<SignUp> {
                           ),
                   ),
                 ),
-                _codeSend
+                _otpSend
                     ? const SizedBox()
                     : Container(
-                        height: 140,
+                        height: MediaQuery.of(context).size.height * 0.2,
                       ),
               ],
             ),
@@ -177,15 +175,15 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  Future _sendCode() async {
+  Future _sendOTP() async {
     bool formIsValid = _formKey.currentState?.validate() ?? false;
 
     if (formIsValid) {
       setState(() {
         _isLoading = true;
       });
-      await Auth.auth.verifyPhoneNumber(
-        phoneNumber: _phone,
+      await Auth.verifyPhoneNumber(
+        phoneNumber: makePhoneValid(_phone),
         verificationCompleted: (phoneAuthCredential) async {
           Auth.signInWithPhoneAuthCredential(phoneAuthCredential);
           setState(() {
@@ -201,27 +199,23 @@ class _SignUpState extends State<SignUp> {
           setState(() {
             _isLoading = false;
           });
-          Fluttertoast.showToast(
-            msg: 'Неудачная верификация',
-          );
-          log(verificationFailed.toString());
+          Fluttertoast.showToast(msg: 'Неудачная верификация');
         },
         codeSent: (verificationID, resendingToken) async {
           setState(() {
             _isLoading = false;
-            _codeSend = true;
-            _verificationID = verificationID;
+            _otpSend = true;
+            _verificationID = _verificationID;
           });
         },
-        codeAutoRetrievalTimeout: (verificationID) async {},
       );
     }
   }
 
-  Future _submit() async {
-    PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+  Future _login() async {
+    var phoneAuthCredential = PhoneAuthProvider.credential(
       verificationId: _verificationID,
-      smsCode: _code,
+      smsCode: _otp,
     );
 
     Auth.signInWithPhoneAuthCredential(phoneAuthCredential);

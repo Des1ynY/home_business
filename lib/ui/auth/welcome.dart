@@ -75,7 +75,7 @@ class _WelcomeState extends State<Welcome> {
                           Navigator.pushNamed(context, signUpRoute),
                       elevation: 0,
                       child: const Text(
-                        'Зарегистрироваться',
+                        'Войти в приложение',
                         style: TextStyle(
                           color: textColor,
                           fontSize: 18,
@@ -87,11 +87,10 @@ class _WelcomeState extends State<Welcome> {
                   SizedBox(
                     height: 30,
                     child: RawMaterialButton(
-                      onPressed: () =>
-                          Navigator.pushNamed(context, signInRoute),
+                      onPressed: () => Navigator.pushNamed(context, adminRoute),
                       elevation: 0,
                       child: Text(
-                        'Войти',
+                        'Я администратор',
                         style: Theme.of(context).textTheme.button,
                       ),
                     ),

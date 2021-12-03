@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '/ui/auth/admin.dart';
 import '/ui/home/residents.dart';
 import '/ui/auth/restore_pass.dart';
-import '/ui/auth/sign_in.dart';
 import '/ui/auth/sign_up.dart';
 import '/ui/auth/welcome.dart';
 
 // page routes
 const String welcomeRoute = '/welcome';
-const String signInRoute = '/signIn';
+const String adminRoute = '/signIn';
 const String signUpRoute = '/signUp';
 const String restoreRoute = '/restore';
 const String residentsRoute = '/residents';
@@ -17,8 +17,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case welcomeRoute:
       return MaterialPageRoute(builder: (context) => const Welcome());
-    case signInRoute:
-      return MaterialPageRoute(builder: (context) => const SignIn());
+    case adminRoute:
+      return MaterialPageRoute(builder: (context) => const AdminWelcome());
     case signUpRoute:
       return MaterialPageRoute(builder: (context) => const SignUp());
     case restoreRoute:
