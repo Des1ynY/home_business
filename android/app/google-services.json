@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "953064211446",
+    "project_id": "home-business-urfu",
+    "storage_bucket": "home-business-urfu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953064211446:android:7a76723b92596678547dd7",
+        "android_client_info": {
+          "package_name": "com.des1yny.home_business"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "953064211446-3ai0adcn0kbqoe24dbi794ond3hogrop.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.des1yny.home_business",
+            "certificate_hash": "0bb173a1dbec21be88e9ca256ad4744c397c144c"
+          }
+        },
+        {
+          "client_id": "953064211446-qguqapmpmjbncmuktn4g2qo0v1ajidfj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEU_8k4ubFm-TPvgFZS0g4_bi5pbZrExQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "953064211446-qguqapmpmjbncmuktn4g2qo0v1ajidfj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
