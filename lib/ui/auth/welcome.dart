@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:home_business/appdata/funcs.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 
 import '/appdata/consts.dart';
 import '/services/router.dart';
-import '/widgets/auth/welcome/cover.dart';
+import '/widgets/auth/cover.dart';
+import '/appdata/funcs.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -71,8 +71,7 @@ class _WelcomeState extends State<Welcome> {
                       color: Colors.white,
                     ),
                     child: RawMaterialButton(
-                      onPressed: () =>
-                          Navigator.pushNamed(context, signUpRoute),
+                      onPressed: () => Navigator.pushNamed(context, loginRoute),
                       elevation: 0,
                       child: const Text(
                         'Войти в приложение',
@@ -84,11 +83,10 @@ class _WelcomeState extends State<Welcome> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 30,
-                    child: RawMaterialButton(
-                      onPressed: () => Navigator.pushNamed(context, adminRoute),
-                      elevation: 0,
+                  GestureDetector(
+                    onTap: () => Navigator.pushNamed(context, adminRoute),
+                    child: SizedBox(
+                      height: 30,
                       child: Text(
                         'Я администратор',
                         style: Theme.of(context).textTheme.button,

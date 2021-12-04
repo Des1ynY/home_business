@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_business/services/firebase_auth.dart';
+import 'package:home_business/services/router.dart';
 
 class Residents extends StatefulWidget {
   const Residents({Key? key}) : super(key: key);
@@ -17,7 +18,10 @@ class _ResidentsState extends State<Residents> {
         children: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () => Auth.signOut(),
+            onPressed: () async {
+              await Auth.signOut();
+              Navigator.pushReplacementNamed(context, welcomeRoute);
+            },
           ),
         ],
       ),

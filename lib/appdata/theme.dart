@@ -47,6 +47,10 @@ class CustomTheme {
         borderSide: BorderSide(color: borderColor),
       ),
     ),
+    disabledColor: hintTextColor,
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: primaryColor,
+    ),
   );
 }
 
