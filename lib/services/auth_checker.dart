@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '/ui/auth/welcome.dart';
-import '/ui/home/residents.dart';
+import '/ui/home/screens.dart';
 
 class AuthChecker extends StatelessWidget {
   const AuthChecker({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class AuthChecker extends StatelessWidget {
     User? currentUser = context.watch<User?>();
 
     if (currentUser != null) {
-      return const Residents();
+      return const ScreensProvider();
     } else {
       return const Welcome();
     }

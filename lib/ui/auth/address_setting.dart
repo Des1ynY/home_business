@@ -87,7 +87,7 @@ class _AddressSettingsState extends State<AddressSettings> {
                     validator: (value) =>
                         value!.isEmpty ? 'Укажите улицу' : null,
                     onFieldSubmitted: (value) {
-                      FocusScope.of(context).requestFocus(_approachField);
+                      FocusScope.of(context).requestFocus(_homeField);
                     },
                   ),
                 ),
@@ -114,10 +114,10 @@ class _AddressSettingsState extends State<AddressSettings> {
                               keyboardType: TextInputType.number,
                               focusNode: _homeField,
                               onChanged: (value) => _home = value,
-                              validator: (value) => isDigit(value) ? '' : null,
+                              validator: (value) => !isDigit(value) ? '' : null,
                               onFieldSubmitted: (_) {
                                 FocusScope.of(context)
-                                    .requestFocus(_apartmentField);
+                                    .requestFocus(_approachField);
                               },
                             ),
                           ],
@@ -141,9 +141,10 @@ class _AddressSettingsState extends State<AddressSettings> {
                               keyboardType: TextInputType.number,
                               focusNode: _approachField,
                               onChanged: (value) => _approach = value,
-                              validator: (value) => isDigit(value) ? '' : null,
+                              validator: (value) => !isDigit(value) ? '' : null,
                               onFieldSubmitted: (_) {
-                                FocusScope.of(context).requestFocus(_homeField);
+                                FocusScope.of(context)
+                                    .requestFocus(_apartmentField);
                               },
                             ),
                           ],
@@ -167,7 +168,7 @@ class _AddressSettingsState extends State<AddressSettings> {
                               focusNode: _apartmentField,
                               maxLength: 4,
                               onChanged: (value) => _apartment = value,
-                              validator: (value) => isDigit(value) ? '' : null,
+                              validator: (value) => !isDigit(value) ? '' : null,
                               onFieldSubmitted: (_) => _submit(),
                             ),
                           ],

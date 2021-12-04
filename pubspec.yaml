@@ -19,6 +19,7 @@ dependencies:
   firebase_auth: any
   liquid_swipe: any
   fluttertoast: any
+  flutter_snake_navigationbar: any
 
 
 dev_dependencies:

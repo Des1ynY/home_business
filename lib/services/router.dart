@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '/ui/auth/success.dart';
 import '/ui/auth/admin.dart';
-import '/ui/home/residents.dart';
+import '/ui/home/people/residents.dart';
 import '/ui/auth/login.dart';
 import '/ui/auth/welcome.dart';
 

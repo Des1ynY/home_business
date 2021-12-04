@@ -6,6 +6,12 @@ double getScaffoldSize(BuildContext context) {
       MediaQuery.of(context).padding.bottom;
 }
 
+double getScaffoldHeight(BuildContext context) {
+  return MediaQuery.of(context).size.height -
+      MediaQuery.of(context).padding.bottom +
+      60;
+}
+
 EdgeInsetsGeometry getPadding(BuildContext context) {
   return EdgeInsets.only(
     top: MediaQuery.of(context).padding.top,
@@ -38,20 +44,23 @@ String makePhoneValid(String phone) {
   return result.toString();
 }
 
-bool isValidEmail(String? value) {
-  if (value != null) {
-    return RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(value);
+bool isDigit(String? number) {
+  if (number != null) {
+    for (int i = 0; i < number.length; i++) {
+      try {
+        int.parse(number[i]);
+        continue;
+      } on FormatException {
+        return false;
+      }
+    }
+    return true;
   }
   return false;
 }
 
-bool isDigit(String? number) {
-  try {
-    int.parse(number!);
-    return true;
-  } on FormatException {
-    return false;
-  }
+double getScrollSheetInitialRatio(BuildContext context) {
+  return (MediaQuery.of(context).size.width +
+          MediaQuery.of(context).padding.top) /
+      getScaffoldHeight(context);
 }
