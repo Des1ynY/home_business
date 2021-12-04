@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:home_business/appdata/funcs.dart';
 
 import '/appdata/consts.dart';
+import '/appdata/funcs.dart';
 import '/ui/auth/address_setting.dart';
 import '/ui/auth/phone_verification.dart';
 import '/ui/auth/user_setting.dart';
 import '/widgets/appbar.dart';
+
+final PageController loginPageController = PageController();
+int loginCurrentPage = 0;
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -15,33 +18,58 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final PageController _pageController = PageController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: getPadding(context),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: CustomAppBar(leading: true),
-            ),
-            SizedBox(
-              height: getScaffoldSize(context) - 40,
-              width: MediaQuery.of(context).size.width,
-              child: PageView(
-                children: const [
-                  PhoneInfo(),
-                  AddressInfo(),
-                  UserInfo(),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: getPadding(context),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: CustomAppBar(leading: true),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _getIndicator(0),
+                  _getIndicator(1),
+                  _getIndicator(2),
                 ],
               ),
-            ),
-          ],
+              SizedBox(
+                height: getScaffoldSize(context) - 60,
+                width: MediaQuery.of(context).size.width,
+                child: PageView(
+                  controller: loginPageController,
+                  onPageChanged: (_) => setState(() {
+                    loginCurrentPage = loginCurrentPage;
+                  }),
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: const [
+                    PhoneVerification(),
+                    AddressSettings(),
+                    UserSettings(),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  Widget _getIndicator(int pos) {
+    return Container(
+      height: 8,
+      width: (MediaQuery.of(context).size.width - 60) / 3,
+      margin: const EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        color: pos == loginCurrentPage ? primaryColor : Colors.grey.shade300,
+        borderRadius: BorderRadius.circular(50),
       ),
     );
   }

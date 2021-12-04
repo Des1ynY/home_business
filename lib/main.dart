@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'appdata/theme.dart';
 import 'services/router.dart';
 import 'services/firebase_auth.dart';
-import '/ui/auth/login.dart';
+import 'services/auth_checker.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +31,7 @@ class HomeBusiness extends StatelessWidget {
         theme: CustomTheme.mainTheme,
         onGenerateRoute: generateRoute,
         title: 'Home Business',
-        home: const Login(),
+        home: const AuthChecker(),
       ),
     );
   }

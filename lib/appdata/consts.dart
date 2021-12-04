@@ -13,6 +13,6 @@ const double buttonBorderRadius = 5;
 
 // ui elements
 const EdgeInsetsGeometry defaultPadding =
-    EdgeInsets.symmetric(horizontal: 20, vertical: 30);
+    EdgeInsets.symmetric(horizontal: 20, vertical: 40);
 const EdgeInsetsGeometry paddingWithAppbar =
     EdgeInsets.only(right: 20, left: 20, bottom: 40);

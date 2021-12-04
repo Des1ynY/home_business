@@ -47,9 +47,11 @@ bool isValidEmail(String? value) {
   return false;
 }
 
-bool isValidPass(String? value) {
-  if (value != null) {
-    return value.length >= 6 ? true : false;
+bool isDigit(String? number) {
+  try {
+    int.parse(number!);
+    return true;
+  } on FormatException {
+    return false;
   }
-  return false;
 }

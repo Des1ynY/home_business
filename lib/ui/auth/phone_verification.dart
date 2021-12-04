@@ -2,20 +2,22 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:home_business/widgets/button.dart';
 
-import '/services/router.dart';
+import '/ui/auth/login.dart';
+import '/models/app_user.dart';
 import '/services/firebase_auth.dart';
 import '/appdata/consts.dart';
 import '/appdata/funcs.dart';
 
-class PhoneInfo extends StatefulWidget {
-  const PhoneInfo({Key? key}) : super(key: key);
+class PhoneVerification extends StatefulWidget {
+  const PhoneVerification({Key? key}) : super(key: key);
 
   @override
-  _PhoneInfoState createState() => _PhoneInfoState();
+  _PhoneVerificationState createState() => _PhoneVerificationState();
 }
 
-class _PhoneInfoState extends State<PhoneInfo> {
+class _PhoneVerificationState extends State<PhoneVerification> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   String _phone = '', _otp = '', _verificationID = '';
@@ -27,9 +29,9 @@ class _PhoneInfoState extends State<PhoneInfo> {
       padding: defaultPadding,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -56,7 +58,7 @@ class _PhoneInfoState extends State<PhoneInfo> {
                   style: Theme.of(context).textTheme.headline2,
                 ),
                 Container(
-                  margin: EdgeInsets.only(bottom: _otpSend ? 30 : 0),
+                  margin: EdgeInsets.only(bottom: _otpSend ? 30 : 40),
                   child: TextFormField(
                     decoration: const InputDecoration(
                       counterText: '',
@@ -78,7 +80,7 @@ class _PhoneInfoState extends State<PhoneInfo> {
                     : Container(),
                 _otpSend
                     ? Container(
-                        margin: const EdgeInsets.only(bottom: 5),
+                        margin: const EdgeInsets.only(bottom: 10),
                         child: TextFormField(
                           decoration: const InputDecoration(
                             hintText: 'Введите код из SMS',
@@ -101,22 +103,14 @@ class _PhoneInfoState extends State<PhoneInfo> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            height: 30,
-                            child: RawMaterialButton(
-                              onPressed: () => setState(() {
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 40),
+                            child: CustomTextButton(
+                              label: 'Изменить номер',
+                              action: () => setState(() {
                                 _otpSend = false;
                                 _verificationID = '';
                               }),
-                              elevation: 0,
-                              child: const Text(
-                                'Изменить номер',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.normal,
-                                  color: textColor,
-                                ),
-                              ),
                             ),
                           )
                         ],
@@ -166,14 +160,16 @@ class _PhoneInfoState extends State<PhoneInfo> {
         phoneNumber: makePhoneValid(_phone),
         timeout: const Duration(seconds: 30),
         verificationCompleted: (phoneAuthCredential) async {
-          Auth.signInWithPhoneAuthCredential(phoneAuthCredential);
+          await Auth.signInWithPhoneAuthCredential(phoneAuthCredential);
           setState(() {
             _isLoading = false;
           });
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            residentsRoute,
-            (route) => false,
+          AppUser().phone = _phone;
+          loginCurrentPage += 1;
+          loginPageController.animateToPage(
+            loginCurrentPage,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.ease,
           );
         },
         verificationFailed: (verificationFailed) async {
@@ -205,6 +201,13 @@ class _PhoneInfoState extends State<PhoneInfo> {
       smsCode: _otp,
     );
 
-    Auth.signInWithPhoneAuthCredential(phoneAuthCredential);
+    await Auth.signInWithPhoneAuthCredential(phoneAuthCredential);
+    AppUser().phone = _phone;
+    loginCurrentPage += 1;
+    loginPageController.animateToPage(
+      loginCurrentPage,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.ease,
+    );
   }
 }

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '/ui/auth/success.dart';
 import '/ui/auth/admin.dart';
 import '/ui/home/residents.dart';
-import '/ui/auth/phone_verification.dart';
+import '/ui/auth/login.dart';
 import '/ui/auth/welcome.dart';
 
 // page routes
 const String welcomeRoute = '/welcome';
 const String adminRoute = '/admin';
 const String loginRoute = '/login';
+const String successRoute = '/success';
 const String residentsRoute = '/residents';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -18,7 +20,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case adminRoute:
       return MaterialPageRoute(builder: (context) => const AdminWelcome());
     case loginRoute:
-      return MaterialPageRoute(builder: (context) => const PhoneInfo());
+      return MaterialPageRoute(builder: (context) => const Login());
+    case successRoute:
+      return MaterialPageRoute(builder: (context) => const SuccessLogin());
     case residentsRoute:
       return MaterialPageRoute(builder: (context) => const Residents());
     default:
