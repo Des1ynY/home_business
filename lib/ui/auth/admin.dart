@@ -15,8 +15,8 @@ class AdminWelcome extends StatelessWidget {
 
     return Scaffold(
       body: Container(
-        height: getScaffoldSize(context),
-        padding: getPadding(context),
+        height: getScaffoldHeight(context),
+        padding: getSafeAreaPadding(context),
         child: Container(
           padding: paddingWithAppbar,
           child: Column(

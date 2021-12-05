@@ -15,18 +15,28 @@ class ScreensProvider extends StatefulWidget {
 }
 
 class _ScreensProviderState extends State<ScreensProvider> {
-  int _currentIndex = 0;
+  int _currentIndex = 3;
   static const List<Widget> _screens = <Widget>[
     Residents(),
     HomeServices(),
     Chatrooms(),
     AppUserProfile(),
   ];
+  static const List<Widget> _appbarTitles = <Widget>[
+    Text('Соседи'),
+    Text('Услуги'),
+    Text('Чаты'),
+    Text('Профиль'),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens.elementAt(_currentIndex),
+      appBar: AppBar(
+        title: _appbarTitles.elementAt(_currentIndex),
+        centerTitle: true,
+      ),
       bottomNavigationBar: SnakeNavigationBar.color(
         height: MediaQuery.of(context).padding.bottom + 60,
         elevation: 20,
@@ -47,7 +57,7 @@ class _ScreensProviderState extends State<ScreensProvider> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.store_mall_directory),
-            label: 'Заказы',
+            label: 'Услуги',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat_bubble),

@@ -16,9 +16,9 @@ class _SuccessLoginState extends State<SuccessLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: getScaffoldSize(context),
+        height: getScaffoldHeight(context),
         width: MediaQuery.of(context).size.width,
-        padding: getPadding(context),
+        padding: getSafeAreaPadding(context),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

@@ -3,7 +3,7 @@ import 'package:liquid_swipe/liquid_swipe.dart';
 
 import '/appdata/consts.dart';
 import '/services/router.dart';
-import '/widgets/auth/cover.dart';
+import 'welcome_cover.dart';
 import '/appdata/funcs.dart';
 
 class Welcome extends StatefulWidget {
@@ -21,7 +21,7 @@ class _WelcomeState extends State<Welcome> {
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        padding: getPadding(context),
+        padding: getSafeAreaPadding(context),
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [

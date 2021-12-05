@@ -23,7 +23,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: getPadding(context),
+          padding: getSafeAreaPadding(context),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -40,7 +40,7 @@ class _LoginState extends State<Login> {
                 ],
               ),
               SizedBox(
-                height: getScaffoldSize(context) - 60,
+                height: getScaffoldHeight(context) - 60,
                 width: MediaQuery.of(context).size.width,
                 child: PageView(
                   controller: loginPageController,

@@ -24,7 +24,6 @@ class _AppUserProfileState extends State<AppUserProfile> {
                 width: MediaQuery.of(context).size.width * 0.6,
                 margin: const EdgeInsets.only(bottom: 20),
                 child: const CircleAvatar(
-                  backgroundColor: primaryColor,
                   backgroundImage: AssetImage('assets/default_ava.png'),
                   foregroundImage: AssetImage('assets/ava_0.png'),
                 ),
@@ -50,7 +49,11 @@ class __ProfileDataState extends State<_ProfileData> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        children: const [],
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+          ),
+        ],
       ),
     );
   }

@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:sprintf/sprintf.dart';
 
-double getScaffoldSize(BuildContext context) {
+double getScaffoldHeight(BuildContext context) {
   return MediaQuery.of(context).size.height -
       MediaQuery.of(context).padding.top -
       MediaQuery.of(context).padding.bottom;
 }
 
-double getScaffoldHeight(BuildContext context) {
-  return MediaQuery.of(context).size.height -
-      MediaQuery.of(context).padding.bottom +
-      60;
-}
-
-EdgeInsetsGeometry getPadding(BuildContext context) {
+EdgeInsetsGeometry getSafeAreaPadding(BuildContext context) {
   return EdgeInsets.only(
     top: MediaQuery.of(context).padding.top,
     bottom: MediaQuery.of(context).padding.bottom,
@@ -59,8 +54,6 @@ bool isDigit(String? number) {
   return false;
 }
 
-double getScrollSheetInitialRatio(BuildContext context) {
-  return (MediaQuery.of(context).size.width +
-          MediaQuery.of(context).padding.top) /
-      getScaffoldHeight(context);
+String getTimeSend(DateTime time) {
+  return sprintf('%d:%02d', [time.hour, time.minute]);
 }

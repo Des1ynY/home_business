@@ -51,6 +51,12 @@ class CustomTheme {
     textSelectionTheme: const TextSelectionThemeData(
       cursorColor: primaryColor,
     ),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.white,
+      foregroundColor: primaryColor,
+      shadowColor: Colors.white70,
+      elevation: 2,
+    ),
   );
 }
 
