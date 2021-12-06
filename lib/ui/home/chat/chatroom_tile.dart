@@ -10,10 +10,12 @@ class ChatroomTile extends StatefulWidget {
     required this.speaker,
     required this.avatar,
     required this.time,
+    this.isYours = false,
     Key? key,
   }) : super(key: key);
 
   final String message, speaker, avatar, time;
+  final bool isYours;
 
   @override
   _ChatroomTileState createState() => _ChatroomTileState();
@@ -27,6 +29,7 @@ class _ChatroomTileState extends State<ChatroomTile> {
         motion: const ScrollMotion(),
         children: [
           SlidableAction(
+            // todo: implemet chatroom delete
             onPressed: (context) {},
             flex: 1,
             spacing: 0,
@@ -98,11 +101,16 @@ class _ChatroomTileState extends State<ChatroomTile> {
                       children: [
                         Flexible(
                           child: Container(
-                            padding: const EdgeInsets.only(right: 15),
+                            margin: const EdgeInsets.only(right: 15, top: 5),
                             child: Text(
-                              widget.message,
+                              widget.isYours
+                                  ? 'Вы: ${widget.message}'
+                                  : widget.message,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Color(0xFF707070),
+                              ),
                             ),
                           ),
                         ),

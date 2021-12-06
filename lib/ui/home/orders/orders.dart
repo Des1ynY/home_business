@@ -14,7 +14,7 @@ class _HomeServicesState extends State<HomeServices> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: const [
         Center(
-          child: Text('Заказы'),
+          child: Text('Услуги'),
         ),
       ],
     );

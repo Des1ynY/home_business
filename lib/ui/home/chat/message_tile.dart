@@ -22,8 +22,8 @@ class MessageTile extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(
         top: 10,
-        left: isYours ? 60 : 20,
-        right: isYours ? 20 : 60,
+        left: isYours ? 60 : 15,
+        right: isYours ? 15 : 60,
       ),
       child: Column(
         crossAxisAlignment:
@@ -80,6 +80,8 @@ class MessageTile extends StatelessWidget {
                       message,
                       style: TextStyle(
                         fontSize: 15,
+                        fontWeight: FontWeight.w300,
+                        fontFamily: 'Roboto',
                         color: isYours ? Colors.white : textColor,
                       ),
                     ),

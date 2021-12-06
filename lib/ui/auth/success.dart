@@ -15,39 +15,41 @@ class _SuccessLoginState extends State<SuccessLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: getScaffoldHeight(context),
-        width: MediaQuery.of(context).size.width,
-        padding: getSafeAreaPadding(context),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: () => Navigator.pushNamedAndRemoveUntil(
-                  context, residentsRoute, (route) => false),
-              child: Container(
+      body: GestureDetector(
+        onTap: () {
+          Navigator.pushNamedAndRemoveUntil(
+              context, homescreenRoute, (route) => false);
+        },
+        child: Container(
+          height: getScaffoldHeight(context),
+          width: MediaQuery.of(context).size.width,
+          padding: getSafeAreaPadding(context),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
                 height: 300,
                 margin: const EdgeInsets.only(bottom: 40),
                 child: Image.asset('assets/phone_green.png'),
               ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 20),
-              child: const Text(
-                'Регистрация завершена!',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.normal,
+              Container(
+                margin: const EdgeInsets.only(bottom: 20),
+                child: const Text(
+                  'Регистрация завершена!',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
               ),
-            ),
-            const Text(
-              'Нажмите на изображение, чтобы продолжить',
-              style: TextStyle(
-                color: hintTextColor,
+              const Text(
+                'Нажмите, чтобы продолжить',
+                style: TextStyle(
+                  color: hintTextColor,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

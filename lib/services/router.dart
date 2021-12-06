@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '/ui/home/screens.dart';
 import '/ui/auth/success.dart';
 import '/ui/auth/admin.dart';
-import '/ui/home/people/residents.dart';
 import '/ui/auth/login.dart';
 import '/ui/auth/welcome.dart';
 
@@ -11,7 +11,7 @@ const String welcomeRoute = '/welcome';
 const String adminRoute = '/admin';
 const String loginRoute = '/login';
 const String successRoute = '/success';
-const String residentsRoute = '/residents';
+const String homescreenRoute = '/homescreen';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -23,8 +23,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => const Login());
     case successRoute:
       return MaterialPageRoute(builder: (context) => const SuccessLogin());
-    case residentsRoute:
-      return MaterialPageRoute(builder: (context) => const Residents());
+    case homescreenRoute:
+      return MaterialPageRoute(builder: (context) => const ScreensProvider());
     default:
       return MaterialPageRoute(builder: (context) => const ErrorPage());
   }

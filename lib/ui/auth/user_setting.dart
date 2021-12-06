@@ -5,6 +5,7 @@ import '/ui/auth/login.dart';
 import '/models/app_user.dart';
 import '/appdata/consts.dart';
 import '/widgets/button.dart';
+import '/services/shared_prefs.dart';
 
 class UserSettings extends StatefulWidget {
   const UserSettings({Key? key}) : super(key: key);
@@ -84,9 +85,22 @@ class _UserSettingsState extends State<UserSettings> {
                         FocusScope.of(context).requestFocus(_bioField),
                   ),
                 ),
-                Text(
-                  'Био',
-                  style: Theme.of(context).textTheme.headline2,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Био',
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                    const Text(
+                      'опционально',
+                      style: TextStyle(
+                        color: hintTextColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w200,
+                      ),
+                    ),
+                  ],
                 ),
                 Container(
                   margin: const EdgeInsets.only(bottom: 40),
@@ -140,6 +154,8 @@ class _UserSettingsState extends State<UserSettings> {
       user.name = _name;
       user.surname = _surname;
       user.bio = _bio;
+
+      LocalDataStorage.setUserData(user.toJson());
 
       Navigator.pushReplacementNamed(context, successRoute);
     }

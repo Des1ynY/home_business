@@ -7,9 +7,11 @@ import 'appdata/theme.dart';
 import 'services/router.dart';
 import 'services/firebase_auth.dart';
 import 'services/auth_checker.dart';
+import 'services/shared_prefs.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await LocalDataStorage.init();
   await Firebase.initializeApp();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const HomeBusiness());

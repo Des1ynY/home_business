@@ -3,7 +3,7 @@ description: An URfU project.
 
 publish_to: 'none' 
 
-version: 1.0.0+1
+version: 0.0.1+1
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -22,6 +22,7 @@ dependencies:
   flutter_snake_navigationbar: any
   flutter_slidable: any
   sprintf: any
+  shared_preferences: any
 
 
 dev_dependencies:

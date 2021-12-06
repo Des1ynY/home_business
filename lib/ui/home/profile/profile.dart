@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '/models/app_user.dart';
 import '/appdata/consts.dart';
 
 class AppUserProfile extends StatefulWidget {
@@ -17,19 +18,22 @@ class _AppUserProfileState extends State<AppUserProfile> {
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: Padding(
           padding: defaultPadding,
-          child: Column(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.width * 0.6,
-                width: MediaQuery.of(context).size.width * 0.6,
-                margin: const EdgeInsets.only(bottom: 20),
-                child: const CircleAvatar(
-                  backgroundImage: AssetImage('assets/default_ava.png'),
-                  foregroundImage: AssetImage('assets/ava_0.png'),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.width * 0.6,
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  margin: const EdgeInsets.only(bottom: 20),
+                  child: const CircleAvatar(
+                    backgroundImage: AssetImage('assets/default_ava.png'),
+                    foregroundImage: AssetImage('assets/ava_0.png'),
+                  ),
                 ),
-              ),
-              const _ProfileData(),
-            ],
+                const _ProfileData(),
+              ],
+            ),
           ),
         ),
       ),
@@ -45,14 +49,17 @@ class _ProfileData extends StatefulWidget {
 }
 
 class __ProfileDataState extends State<_ProfileData> {
+  final AppUser _user = AppUser();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-          ),
+          Text('${_user.name} ${_user.surname}'),
+          Text(_user.bio),
+          Text('${_user.city}, ул. ${_user.street}, ${_user.home}'),
+          Text('Подъезд ${_user.approach}, кв. ${_user.apartment}'),
         ],
       ),
     );

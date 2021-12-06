@@ -21,27 +21,33 @@ class _ChatState extends State<Chat> {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              maxRadius: 20,
-              backgroundImage: const AssetImage('assets/default_ava.png'),
-              foregroundImage: AssetImage(widget.imageUrl),
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 10),
-              child: Text(
-                widget.name,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w300,
-                  color: textColor,
+        title: RawMaterialButton(
+          onPressed: () {},
+          elevation: 0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                maxRadius: 20,
+                backgroundImage: const AssetImage('assets/default_ava.png'),
+                foregroundImage: AssetImage(widget.imageUrl),
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 10),
+                child: Text(
+                  widget.name,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'Roboto',
+                    color: textColor,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       body: Column(
@@ -90,10 +96,10 @@ class __MessageFieldState extends State<_MessageField> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).padding.bottom + 7,
+        bottom: MediaQuery.of(context).padding.bottom + 15,
         top: 7,
-        right: 20,
-        left: 20,
+        right: 15,
+        left: 15,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -114,6 +120,7 @@ class __MessageFieldState extends State<_MessageField> {
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 17, vertical: 5),
               ),
+              style: const TextStyle(fontFamily: 'Roboto'),
               minLines: 1,
               maxLines: 5,
               textCapitalization: TextCapitalization.sentences,

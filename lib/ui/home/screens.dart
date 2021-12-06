@@ -4,7 +4,7 @@ import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import '/appdata/consts.dart';
 import '/ui/home/chat/chatrooms.dart';
 import '/ui/home/orders/orders.dart';
-import '/ui/home/people/residents.dart';
+import '/ui/home/people/neighbourhoods.dart';
 import '/ui/home/profile/profile.dart';
 
 class ScreensProvider extends StatefulWidget {

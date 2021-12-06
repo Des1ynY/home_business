@@ -2,8 +2,8 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:home_business/widgets/button.dart';
 
+import '/widgets/button.dart';
 import '/ui/auth/login.dart';
 import '/models/app_user.dart';
 import '/services/firebase_auth.dart';

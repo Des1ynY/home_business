@@ -1,7 +1,16 @@
 class AppUser {
+  AppUser._privateConstructor();
+
+  static final AppUser _instance = AppUser._privateConstructor();
+
+  factory AppUser() {
+    return _instance;
+  }
+
   String name = 'unknown';
   String surname = 'unknown';
   String bio = 'unknown';
+  String birthday = 'unknown';
   String phone = 'unknown';
   String city = 'unknown';
   String street = 'unknown';
@@ -9,15 +18,25 @@ class AppUser {
   String approach = 'unknown';
   String apartment = 'unknown';
 
-  AppUser._privateConstructor();
+  void setUser(Map<String, String> data) {
+    name = data['name']!;
+    surname = data['surname']!;
+    bio = data['bio']!;
+    birthday = data['birthday']!;
+    phone = data['phone']!;
+    city = data['city']!;
+    street = data['street']!;
+    home = data['home']!;
+    approach = data['approach']!;
+    apartment = data['apartment']!;
+  }
 
-  static final AppUser _instance = AppUser._privateConstructor();
-
-  Map<String, dynamic> toJson() {
+  Map<String, String> toJson() {
     return {
       'name': name,
       'surname': surname,
       'bio': bio,
+      'birthday': birthday,
       'phone': phone,
       'city': city,
       'street': street,
@@ -27,7 +46,18 @@ class AppUser {
     };
   }
 
-  factory AppUser() {
-    return _instance;
+  List<String> getFields() {
+    return [
+      'name',
+      'surname',
+      'bio',
+      'birthday',
+      'phone',
+      'city',
+      'street',
+      'home',
+      'approach',
+      'apartment',
+    ];
   }
 }
