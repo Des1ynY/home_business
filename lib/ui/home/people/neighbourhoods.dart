@@ -44,8 +44,11 @@ class _ResidentsState extends State<Residents> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(itemBuilder: (context, index) {
-      return _neigbours.elementAt(index % _neigbours.length);
-    });
+    return ListView.builder(
+      itemCount: _neigbours.length,
+      itemBuilder: (context, index) {
+        return _neigbours.elementAt(index % _neigbours.length);
+      },
+    );
   }
 }

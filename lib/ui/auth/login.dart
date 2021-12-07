@@ -6,6 +6,7 @@ import '/ui/auth/address_setting.dart';
 import '/ui/auth/phone_verification.dart';
 import '/ui/auth/user_setting.dart';
 import '/widgets/appbar.dart';
+import '/services/shared_prefs.dart';
 
 final PageController loginPageController = PageController();
 int loginCurrentPage = 0;
@@ -49,9 +50,9 @@ class _LoginState extends State<Login> {
                   }),
                   physics: const NeverScrollableScrollPhysics(),
                   children: const [
-                    PhoneVerification(),
                     AddressSettings(),
                     UserSettings(),
+                    PhoneVerification(),
                   ],
                 ),
               ),
@@ -72,5 +73,12 @@ class _LoginState extends State<Login> {
         borderRadius: BorderRadius.circular(50),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    loginCurrentPage = 0;
+    LocalDataStorage.deleteUserData();
+    super.dispose();
   }
 }

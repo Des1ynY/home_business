@@ -32,32 +32,3 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
-
-class CustomTextButton extends StatelessWidget {
-  const CustomTextButton({
-    required this.label,
-    this.action,
-    Key? key,
-  }) : super(key: key);
-
-  final String label;
-  final Function? action;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => action!(),
-      child: SizedBox(
-        height: 30,
-        child: Text(
-          label,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.normal,
-            color: textColor,
-          ),
-        ),
-      ),
-    );
-  }
-}

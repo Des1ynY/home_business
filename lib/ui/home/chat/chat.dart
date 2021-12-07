@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '/ui/home/people/neighbour_profile.dart';
 import '/appdata/consts.dart';
 import '/ui/home/chat/message_tile.dart';
 
@@ -22,7 +23,18 @@ class _ChatState extends State<Chat> {
       appBar: AppBar(
         titleSpacing: 0,
         title: RawMaterialButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NeighbourProfile(
+                    name: widget.name,
+                    bio: '',
+                    imageUrl: widget.imageUrl,
+                    apartment: '911'),
+              ),
+            );
+          },
           elevation: 0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,

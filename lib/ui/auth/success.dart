@@ -16,6 +16,7 @@ class _SuccessLoginState extends State<SuccessLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
         onTap: () {
           Navigator.pushNamedAndRemoveUntil(
               context, homescreenRoute, (route) => false);

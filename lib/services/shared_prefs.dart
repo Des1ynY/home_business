@@ -26,4 +26,8 @@ class LocalDataStorage {
 
     return map;
   }
+
+  static Future deleteUserData() async {
+    await _prefs.clear();
+  }
 }

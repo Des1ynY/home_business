@@ -1,14 +1,13 @@
-import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '/widgets/button.dart';
-import '/ui/auth/login.dart';
 import '/models/app_user.dart';
 import '/services/firebase_auth.dart';
 import '/appdata/consts.dart';
 import '/appdata/funcs.dart';
+import '/services/router.dart';
+import '/services/shared_prefs.dart';
 
 class PhoneVerification extends StatefulWidget {
   const PhoneVerification({Key? key}) : super(key: key);
@@ -34,12 +33,15 @@ class _PhoneVerificationState extends State<PhoneVerification> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Добро пожаловать',
-                style: Theme.of(context).textTheme.headline1,
+              Container(
+                margin: const EdgeInsets.only(top: 20),
+                child: Text(
+                  'Последний шаг',
+                  style: Theme.of(context).textTheme.headline1,
+                ),
               ),
               Text(
-                'Подтвердите номер, чтобы продолжить',
+                'Подтвердите номер, чтобы закончить регистрацию',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ],
@@ -105,12 +107,24 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                         children: [
                           Container(
                             margin: const EdgeInsets.only(bottom: 40),
-                            child: CustomTextButton(
-                              label: 'Изменить номер',
-                              action: () => setState(() {
-                                _otpSend = false;
-                                _verificationID = '';
-                              }),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _otpSend = false;
+                                  _verificationID = '';
+                                });
+                              },
+                              child: const SizedBox(
+                                height: 30,
+                                child: Text(
+                                  'Изменить номер',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.normal,
+                                    color: textColor,
+                                  ),
+                                ),
+                              ),
                             ),
                           )
                         ],
@@ -160,23 +174,21 @@ class _PhoneVerificationState extends State<PhoneVerification> {
         phoneNumber: makePhoneValid(_phone),
         timeout: const Duration(seconds: 30),
         verificationCompleted: (phoneAuthCredential) async {
+          AppUser user = AppUser();
+          user.phone = _phone;
+          LocalDataStorage.setUserData(user.toJson());
+
           await Auth.signInWithPhoneAuthCredential(phoneAuthCredential);
           setState(() {
             _isLoading = false;
           });
-          AppUser().phone = _phone;
-          loginCurrentPage += 1;
-          loginPageController.animateToPage(
-            loginCurrentPage,
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.ease,
-          );
+          Navigator.pushNamedAndRemoveUntil(
+              context, successRoute, (route) => false);
         },
         verificationFailed: (verificationFailed) async {
           setState(() {
             _isLoading = false;
           });
-          log(verificationFailed.message!);
           Fluttertoast.showToast(
             msg: 'Неудачная верификация',
             backgroundColor: Colors.black.withOpacity(0.7),
@@ -201,13 +213,12 @@ class _PhoneVerificationState extends State<PhoneVerification> {
       smsCode: _otp,
     );
 
+    AppUser user = AppUser();
+    user.phone = _phone;
+    LocalDataStorage.setUserData(user.toJson());
+
     await Auth.signInWithPhoneAuthCredential(phoneAuthCredential);
-    AppUser().phone = _phone;
-    loginCurrentPage += 1;
-    loginPageController.animateToPage(
-      loginCurrentPage,
-      duration: const Duration(milliseconds: 200),
-      curve: Curves.ease,
-    );
+
+    Navigator.pushNamedAndRemoveUntil(context, successRoute, (route) => false);
   }
 }

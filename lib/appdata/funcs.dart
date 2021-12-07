@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:sprintf/sprintf.dart';
 
@@ -56,4 +57,12 @@ bool isDigit(String? number) {
 
 String getTimeSend(DateTime time) {
   return sprintf('%d:%02d', [time.hour, time.minute]);
+}
+
+String getHeroTag({int? seed = 999999}) {
+  Random rnd = Random(seed);
+  int firstId = rnd.nextInt(9999999);
+  int secondId = rnd.nextInt(9999999);
+
+  return '$firstId.hero_tag.$secondId';
 }

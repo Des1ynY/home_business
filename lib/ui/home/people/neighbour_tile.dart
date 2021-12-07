@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import '/appdata/funcs.dart';
+import '/ui/home/people/neighbour_profile.dart';
 import '/appdata/consts.dart';
 
 class NeigbourProfileTile extends StatelessWidget {
@@ -16,6 +18,8 @@ class NeigbourProfileTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String heroTag = getHeroTag();
+
     return Slidable(
       endActionPane: ActionPane(
         motion: const ScrollMotion(),
@@ -31,7 +35,20 @@ class NeigbourProfileTile extends StatelessWidget {
         ],
       ),
       child: RawMaterialButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => NeighbourProfile(
+                name: name,
+                bio: bio,
+                imageUrl: imageUrl,
+                apartment: apartment,
+                heroTag: heroTag,
+              ),
+            ),
+          );
+        },
         elevation: 0,
         child: Container(
           height: 120,
@@ -42,10 +59,13 @@ class NeigbourProfileTile extends StatelessWidget {
             children: [
               Container(
                 margin: const EdgeInsets.only(right: 10),
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundImage: const AssetImage('assets/default_ava.png'),
-                  foregroundImage: NetworkImage(imageUrl),
+                child: Hero(
+                  tag: heroTag,
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundImage: const AssetImage('assets/default_ava.png'),
+                    foregroundImage: NetworkImage(imageUrl),
+                  ),
                 ),
               ),
               Expanded(

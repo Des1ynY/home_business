@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '/services/router.dart';
 import '/ui/auth/login.dart';
 import '/models/app_user.dart';
 import '/appdata/consts.dart';
 import '/widgets/button.dart';
-import '/services/shared_prefs.dart';
 
 class UserSettings extends StatefulWidget {
   const UserSettings({Key? key}) : super(key: key);
@@ -31,9 +29,12 @@ class _UserSettingsState extends State<UserSettings> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Расскажите о себе',
-                style: Theme.of(context).textTheme.headline1,
+              Container(
+                margin: const EdgeInsets.only(top: 20),
+                child: Text(
+                  'Расскажите о себе',
+                  style: Theme.of(context).textTheme.headline1,
+                ),
               ),
               Text(
                 'Позвольте соседям узнать вас ближе',
@@ -59,6 +60,7 @@ class _UserSettingsState extends State<UserSettings> {
                     decoration: const InputDecoration(
                       hintText: 'Роберт',
                     ),
+                    textCapitalization: TextCapitalization.words,
                     keyboardType: TextInputType.name,
                     onChanged: (value) => _name = value,
                     validator: (value) =>
@@ -77,6 +79,8 @@ class _UserSettingsState extends State<UserSettings> {
                     decoration: const InputDecoration(
                       hintText: 'Дауни Мл.',
                     ),
+                    textCapitalization: TextCapitalization.words,
+                    focusNode: _surnameField,
                     keyboardType: TextInputType.name,
                     onChanged: (value) => _surname = value,
                     validator: (value) =>
@@ -92,12 +96,15 @@ class _UserSettingsState extends State<UserSettings> {
                       'Био',
                       style: Theme.of(context).textTheme.headline2,
                     ),
-                    const Text(
-                      'опционально',
-                      style: TextStyle(
-                        color: hintTextColor,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w200,
+                    Container(
+                      margin: const EdgeInsets.only(left: 5),
+                      child: const Text(
+                        'опционально',
+                        style: TextStyle(
+                          color: hintTextColor,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w200,
+                        ),
                       ),
                     ),
                   ],
@@ -123,23 +130,10 @@ class _UserSettingsState extends State<UserSettings> {
           Container(
             margin: const EdgeInsets.only(bottom: 10),
             child: CustomButton(
-              label: 'Зарегистрироваться',
+              label: 'Продолжить',
               action: () => _submit(),
             ),
           ),
-          Center(
-            child: CustomTextButton(
-              label: 'Назад',
-              action: () {
-                loginCurrentPage -= 1;
-                loginPageController.animateToPage(
-                  loginCurrentPage,
-                  duration: const Duration(milliseconds: 200),
-                  curve: Curves.easeInBack,
-                );
-              },
-            ),
-          )
         ],
       ),
     );
@@ -151,13 +145,16 @@ class _UserSettingsState extends State<UserSettings> {
 
     if (formIsValid) {
       var user = AppUser();
-      user.name = _name;
-      user.surname = _surname;
-      user.bio = _bio;
+      user.name = _name.trim();
+      user.surname = _surname.trim();
+      user.bio = _bio.trim();
 
-      LocalDataStorage.setUserData(user.toJson());
-
-      Navigator.pushReplacementNamed(context, successRoute);
+      loginCurrentPage += 1;
+      loginPageController.animateToPage(
+        loginCurrentPage,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.ease,
+      );
     }
   }
 }

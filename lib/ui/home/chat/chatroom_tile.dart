@@ -91,6 +91,7 @@ class _ChatroomTileState extends State<ChatroomTile> {
                         Text(
                           widget.time,
                           style: const TextStyle(
+                            fontSize: 12,
                             color: hintTextColor,
                           ),
                         ),
@@ -102,16 +103,35 @@ class _ChatroomTileState extends State<ChatroomTile> {
                         Flexible(
                           child: Container(
                             margin: const EdgeInsets.only(right: 15, top: 5),
-                            child: Text(
-                              widget.isYours
-                                  ? 'Вы: ${widget.message}'
-                                  : widget.message,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                color: Color(0xFF707070),
-                              ),
-                            ),
+                            child: widget.isYours
+                                ? RichText(
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(
+                                      text: 'Вы: ',
+                                      style: const TextStyle(
+                                        fontFamily: 'AvenirNextCyr',
+                                        color: primaryColor,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: widget.message,
+                                          style: const TextStyle(
+                                            fontFamily: 'AvenirNextCyr',
+                                            color: Color(0xFF707070),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Text(
+                                    widget.message,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: Color(0xFF707070),
+                                    ),
+                                  ),
                           ),
                         ),
                       ],

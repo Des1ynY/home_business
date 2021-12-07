@@ -33,9 +33,12 @@ class _AddressSettingsState extends State<AddressSettings> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Укажите адрес',
-                style: Theme.of(context).textTheme.headline1,
+              Container(
+                margin: const EdgeInsets.only(top: 20),
+                child: Text(
+                  'Укажите адрес',
+                  style: Theme.of(context).textTheme.headline1,
+                ),
               ),
               Text(
                 'Его увидят только жители вашего дома',
@@ -61,6 +64,7 @@ class _AddressSettingsState extends State<AddressSettings> {
                     decoration: const InputDecoration(
                       hintText: 'Москва',
                     ),
+                    textCapitalization: TextCapitalization.words,
                     cursorColor: primaryColor,
                     keyboardType: TextInputType.text,
                     onChanged: (value) => _city = value,
@@ -81,6 +85,7 @@ class _AddressSettingsState extends State<AddressSettings> {
                     decoration: const InputDecoration(
                       hintText: 'Пушкина',
                     ),
+                    textCapitalization: TextCapitalization.words,
                     keyboardType: TextInputType.streetAddress,
                     focusNode: _streetField,
                     onChanged: (value) => _street = value,
@@ -195,11 +200,11 @@ class _AddressSettingsState extends State<AddressSettings> {
 
     if (formIsValid) {
       var user = AppUser();
-      user.city = _city;
-      user.street = _street;
-      user.home = _home;
-      user.approach = _approach;
-      user.apartment = _apartment;
+      user.city = _city.trim();
+      user.street = _street.trim();
+      user.home = _home.trim();
+      user.approach = _approach.trim();
+      user.apartment = _apartment.trim();
 
       loginCurrentPage += 1;
       loginPageController.animateToPage(
