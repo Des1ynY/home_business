@@ -6,7 +6,6 @@ import '/ui/auth/address_setting.dart';
 import '/ui/auth/phone_verification.dart';
 import '/ui/auth/user_setting.dart';
 import '/widgets/appbar.dart';
-import '/services/shared_prefs.dart';
 
 final PageController loginPageController = PageController();
 int loginCurrentPage = 0;
@@ -78,7 +77,6 @@ class _LoginState extends State<Login> {
   @override
   void dispose() {
     loginCurrentPage = 0;
-    LocalDataStorage.deleteUserData();
     super.dispose();
   }
 }

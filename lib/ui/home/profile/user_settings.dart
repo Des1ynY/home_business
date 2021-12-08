@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 
-class UserSettings extends StatefulWidget {
-  const UserSettings({Key? key}) : super(key: key);
+class AppUserSettings extends StatefulWidget {
+  const AppUserSettings({Key? key}) : super(key: key);
 
   @override
-  _UserSettingsState createState() => _UserSettingsState();
+  _AppUserSettingsState createState() => _AppUserSettingsState();
 }
 
-class _UserSettingsState extends State<UserSettings> {
+class _AppUserSettingsState extends State<AppUserSettings> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: const [],
+        ),
+      ),
+    );
   }
 }

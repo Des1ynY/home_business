@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '/services/firebase_db.dart';
 import '/models/app_user.dart';
 import '/services/firebase_auth.dart';
 import '/appdata/consts.dart';
@@ -213,12 +214,23 @@ class _PhoneVerificationState extends State<PhoneVerification> {
       smsCode: _otp,
     );
 
-    AppUser user = AppUser();
-    user.phone = _phone;
-    LocalDataStorage.setUserData(user.toJson());
+    User user = await Auth.signInWithPhoneAuthCredential(phoneAuthCredential);
 
-    await Auth.signInWithPhoneAuthCredential(phoneAuthCredential);
+    if (UsersDatabase.checkUser(user.uid)) {
+      AppUser appUser = AppUser();
+      appUser.phone = _phone;
+      appUser.uid = user.uid;
 
-    Navigator.pushNamedAndRemoveUntil(context, successRoute, (route) => false);
+      await UsersDatabase.setUser();
+      LocalDataStorage.setUserData(appUser.toJson());
+    } else {
+      Navigator.pop(context);
+      Fluttertoast.showToast(
+        msg: 'Аккаут с таким номером уже существует',
+        backgroundColor: Colors.black.withOpacity(0.7),
+      );
+    }
+
+    Navigator.pushReplacementNamed(context, successRoute);
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-import '/appdata/funcs.dart';
 import '/ui/home/people/neighbour_profile.dart';
 import '/appdata/consts.dart';
 
@@ -11,15 +10,14 @@ class NeigbourProfileTile extends StatelessWidget {
     required this.bio,
     required this.apartment,
     required this.imageUrl,
+    required this.heroTag,
     Key? key,
   }) : super(key: key);
 
-  final String name, bio, apartment, imageUrl;
+  final String name, bio, apartment, imageUrl, heroTag;
 
   @override
   Widget build(BuildContext context) {
-    String heroTag = getHeroTag();
-
     return Slidable(
       endActionPane: ActionPane(
         motion: const ScrollMotion(),
@@ -27,7 +25,7 @@ class NeigbourProfileTile extends StatelessWidget {
           SlidableAction(
             onPressed: (context) {},
             spacing: 0,
-            backgroundColor: hintTextColor,
+            backgroundColor: primaryColor,
             foregroundColor: Colors.black,
             icon: Icons.send_rounded,
             label: 'Написать',

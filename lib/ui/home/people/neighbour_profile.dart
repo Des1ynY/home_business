@@ -44,12 +44,7 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _getProfileData(context),
-              const Divider(
-                color: borderColor,
-                indent: 20,
-                endIndent: 20,
-                height: 40,
-              ),
+              const Divider(color: darkGrey, indent: 20, endIndent: 20),
               _getServicesData(context),
             ],
           ),
@@ -80,7 +75,7 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
         ),
         Text(
           'кв. ${widget.apartment}',
-          style: const TextStyle(color: hintTextColor),
+          style: const TextStyle(color: darkGrey),
         ),
         Container(
           margin: const EdgeInsets.only(top: 10),
@@ -89,11 +84,11 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
               label: const Text(
                 'О себе',
                 style: TextStyle(
-                  color: hintTextColor,
+                  color: darkGrey,
                 ),
               ),
               disabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: borderColor),
+                borderSide: const BorderSide(color: darkGrey),
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
@@ -105,7 +100,7 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(top: 10),
+          margin: const EdgeInsets.only(top: 10, bottom: 10),
           child: Row(
             children: [
               Expanded(
@@ -114,7 +109,7 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
                   margin: const EdgeInsets.only(right: 10),
                   decoration: BoxDecoration(
                     border: const Border.fromBorderSide(
-                      BorderSide(color: borderColor),
+                      BorderSide(color: darkGrey),
                     ),
                     borderRadius: BorderRadius.circular(buttonBorderRadius),
                   ),
@@ -137,7 +132,7 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
                 width: buttonHeight,
                 decoration: BoxDecoration(
                   border: const Border.fromBorderSide(
-                    BorderSide(color: borderColor),
+                    BorderSide(color: darkGrey),
                   ),
                   borderRadius: BorderRadius.circular(buttonBorderRadius),
                 ),
@@ -156,7 +151,7 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
                       : const Icon(
                           Icons.star_border,
                           size: 35,
-                          color: borderColor,
+                          color: darkGrey,
                         ),
                 ),
               ),
@@ -168,19 +163,54 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
   }
 
   Widget _getServicesData(BuildContext context) {
+    List<Widget> orders = [
+      OrderTile(
+        worker: widget.name,
+        imageUrl: widget.imageUrl,
+        title: 'Селфи на фоне Земли',
+        description:
+            'За относительно небольшую плату сделаю селфи на фоне Земли из иллюминатора МКС.',
+        price: '50000 - 100000',
+        tags: 'Фото Космос',
+        orderId: '3',
+      ),
+      OrderTile(
+        worker: widget.name,
+        imageUrl: widget.imageUrl,
+        title: 'Похохочем',
+        description: 'За подробностями в лс.',
+        tags: 'Культура Общение Юмор',
+        orderId: '2',
+      ),
+      OrderTile(
+        worker: widget.name,
+        imageUrl: widget.imageUrl,
+        title: 'Мобильное приложение на Flutter под Android',
+        description:
+            'Сделаю мобильное приложение на Flutter. Изучаю Dart примерно полгода, умею делать интерфейсы почти любой сложности, работаю с базой данных Firebase.',
+        price: 'от 5000',
+        tags: 'Mobile Flutter Android iOS Firebase UI UX',
+        orderId: '4',
+      )
+    ];
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          'Услуги',
-          style: Theme.of(context).textTheme.headline2,
+        Container(
+          margin: const EdgeInsets.only(bottom: 10, top: 3),
+          child: Text(
+            'Услуги',
+            style: Theme.of(context).textTheme.headline2,
+          ),
         ),
         ListView.builder(
-          itemCount: 5,
+          itemCount: orders.length,
           shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            return const OrderTile();
+            return orders.elementAt(index);
           },
         )
       ],
