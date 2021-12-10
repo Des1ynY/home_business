@@ -49,7 +49,7 @@ class AppUser {
     };
   }
 
-  List<String> getFields() {
+  static List<String> keys() {
     return [
       'uid',
       'name',

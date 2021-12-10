@@ -115,6 +115,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                                   _verificationID = '';
                                 });
                               },
+                              behavior: HitTestBehavior.translucent,
                               child: const SizedBox(
                                 height: 30,
                                 child: Text(
@@ -170,22 +171,12 @@ class _PhoneVerificationState extends State<PhoneVerification> {
     if (formIsValid) {
       setState(() {
         _isLoading = true;
+        _phone = makePhoneValid(_phone);
       });
       await Auth.auth.verifyPhoneNumber(
         phoneNumber: makePhoneValid(_phone),
-        timeout: const Duration(seconds: 30),
-        verificationCompleted: (phoneAuthCredential) async {
-          AppUser user = AppUser();
-          user.phone = _phone;
-          LocalDataStorage.setUserData(user.toJson());
-
-          await Auth.signInWithPhoneAuthCredential(phoneAuthCredential);
-          setState(() {
-            _isLoading = false;
-          });
-          Navigator.pushNamedAndRemoveUntil(
-              context, successRoute, (route) => false);
-        },
+        timeout: const Duration(seconds: 60),
+        verificationCompleted: _verificationCompleted,
         verificationFailed: (verificationFailed) async {
           setState(() {
             _isLoading = false;
@@ -214,23 +205,35 @@ class _PhoneVerificationState extends State<PhoneVerification> {
       smsCode: _otp,
     );
 
-    User user = await Auth.signInWithPhoneAuthCredential(phoneAuthCredential);
+    _verificationCompleted(phoneAuthCredential);
+  }
 
-    if (UsersDatabase.checkUser(user.uid)) {
+  _verificationCompleted(PhoneAuthCredential phoneAuthCredential) async {
+    UserCredential userCredential =
+        await Auth.signInWithPhoneAuthCredential(phoneAuthCredential);
+    User user = userCredential.user!;
+
+    if (!await UsersDatabase.checkUser(user.uid)) {
       AppUser appUser = AppUser();
       appUser.phone = _phone;
       appUser.uid = user.uid;
 
-      await UsersDatabase.setUser();
+      await UsersDatabase.setUser(appUser.uid, appUser.toJson());
       LocalDataStorage.setUserData(appUser.toJson());
+      Navigator.pushNamedAndRemoveUntil(
+          context, successRoute, (route) => false);
     } else {
-      Navigator.pop(context);
+      setState(() {
+        _otpSend = false;
+        _verificationID = '';
+        _isLoading = false;
+        _otp = '';
+        _phone = '';
+      });
       Fluttertoast.showToast(
         msg: 'Аккаут с таким номером уже существует',
         backgroundColor: Colors.black.withOpacity(0.7),
       );
     }
-
-    Navigator.pushReplacementNamed(context, successRoute);
   }
 }

@@ -95,7 +95,6 @@ class _AppUserProfileState extends State<AppUserProfile> {
               Expanded(
                 child: Container(
                   height: buttonHeight,
-                  margin: const EdgeInsets.only(right: 10),
                   decoration: BoxDecoration(
                     border: const Border.fromBorderSide(
                       BorderSide(color: darkGrey),

@@ -9,15 +9,15 @@ import '/widgets/appbar.dart';
 class AdminWelcome extends StatelessWidget {
   const AdminWelcome({Key? key}) : super(key: key);
 
+  final _contactEmail = 'Smetanin.Ivan@urfu.me';
+
   @override
   Widget build(BuildContext context) {
-    const _contactEmail = 'Smetanin.Ivan@urfu.me';
-
     return Scaffold(
       body: Container(
         height: getScaffoldHeight(context),
         padding: getSafeAreaPadding(context),
-        child: Container(
+        child: Padding(
           padding: paddingWithAppbar,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,7 +59,7 @@ class AdminWelcome extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       Clipboard.setData(
-                        const ClipboardData(text: _contactEmail),
+                        ClipboardData(text: _contactEmail),
                       ).then(
                         (_) => Fluttertoast.showToast(
                           msg: 'Адрес скопирован',
@@ -69,9 +69,9 @@ class AdminWelcome extends StatelessWidget {
                     },
                     child: Container(
                       margin: const EdgeInsets.only(bottom: 5),
-                      child: const Text(
+                      child: Text(
                         _contactEmail,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.normal,
                           color: primaryColor,

@@ -10,7 +10,7 @@ class Auth {
 
   static signInWithPhoneAuthCredential(PhoneAuthCredential credential) async {
     try {
-      await _auth.signInWithCredential(credential);
+      return await _auth.signInWithCredential(credential);
     } on FirebaseException catch (e) {
       log(e.message!);
     }

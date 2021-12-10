@@ -71,7 +71,8 @@ class _WelcomeState extends State<Welcome> {
                       color: Colors.white,
                     ),
                     child: RawMaterialButton(
-                      onPressed: () => Navigator.pushNamed(context, loginRoute),
+                      onPressed: () =>
+                          Navigator.pushNamed(context, signUpRoute),
                       elevation: 0,
                       child: const Text(
                         'Войти в приложение',

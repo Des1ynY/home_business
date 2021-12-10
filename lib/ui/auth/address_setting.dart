@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '/ui/auth/login.dart';
+import '/services/router.dart';
+import 'sign_up.dart';
 import '/appdata/funcs.dart';
 import '/widgets/button.dart';
 import '/models/app_user.dart';
@@ -185,9 +186,31 @@ class _AddressSettingsState extends State<AddressSettings> {
               ],
             ),
           ),
-          CustomButton(
-            label: 'Продолжить',
-            action: () => _submit(),
+          Container(
+            margin: const EdgeInsets.only(bottom: 10),
+            child: CustomButton(
+              label: 'Продолжить',
+              action: () => _submit(),
+            ),
+          ),
+          Center(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, signInRoute);
+              },
+              behavior: HitTestBehavior.translucent,
+              child: const SizedBox(
+                height: 30,
+                child: Text(
+                  'У меня уже есть аккаунт',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                    color: textColor,
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),

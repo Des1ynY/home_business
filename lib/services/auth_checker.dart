@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 
 import '/ui/auth/welcome.dart';
 import '/ui/home/screens.dart';
-import '/models/app_user.dart';
-import '/services/shared_prefs.dart';
 
 class AuthChecker extends StatelessWidget {
   const AuthChecker({Key? key}) : super(key: key);
@@ -15,10 +13,6 @@ class AuthChecker extends StatelessWidget {
     User? currentUser = context.watch<User?>();
 
     if (currentUser != null) {
-      var user = AppUser();
-      var data = LocalDataStorage.getUserData(user.getFields());
-      user.setUser(data);
-
       return const ScreensProvider();
     } else {
       return const Welcome();

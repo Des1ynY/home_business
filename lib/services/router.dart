@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '/ui/home/profile/user_settings.dart';
+import '/ui/auth/sign_in.dart';
+import '../ui/home/profile/profile_settings.dart';
 import '/ui/home/screens.dart';
 import '/ui/auth/success.dart';
 import '/ui/auth/admin.dart';
-import '/ui/auth/login.dart';
+import '../ui/auth/sign_up.dart';
 import '/ui/auth/welcome.dart';
 
 // page routes
 const String welcomeRoute = '/welcome';
 const String adminRoute = '/admin';
-const String loginRoute = '/login';
+const String signUpRoute = '/signUp';
+const String signInRoute = '/signIn';
 const String successRoute = '/success';
 const String homescreenRoute = '/homescreen';
 const String userSettingsRoute = '/settings';
@@ -21,8 +23,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => const Welcome());
     case adminRoute:
       return MaterialPageRoute(builder: (context) => const AdminWelcome());
-    case loginRoute:
-      return MaterialPageRoute(builder: (context) => const Login());
+    case signUpRoute:
+      return MaterialPageRoute(builder: (context) => const SignUp());
+    case signInRoute:
+      return MaterialPageRoute(builder: (context) => const SignIn());
     case successRoute:
       return MaterialPageRoute(builder: (context) => const SuccessLogin());
     case homescreenRoute:
