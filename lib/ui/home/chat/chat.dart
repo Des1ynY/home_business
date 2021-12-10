@@ -1,17 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '/models/chat_model.dart';
+import '/models/neighbour_model.dart';
 import '/ui/home/people/neighbour_profile.dart';
 import '/appdata/consts.dart';
 import '/ui/home/chat/message_tile.dart';
 
 class Chat extends StatefulWidget {
   const Chat({
-    required this.name,
-    required this.imageUrl,
+    required this.chatInfo,
+    required this.neighbour,
     Key? key,
   }) : super(key: key);
 
-  final String imageUrl, name;
+  final Chatroom chatInfo;
+  final Neighbour neighbour;
+
   @override
   _ChatState createState() => _ChatState();
 }
@@ -27,11 +32,8 @@ class _ChatState extends State<Chat> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => NeighbourProfile(
-                    name: widget.name,
-                    bio: '',
-                    imageUrl: widget.imageUrl,
-                    apartment: '911'),
+                builder: (context) =>
+                    NeighbourProfile(neighbour: widget.neighbour),
               ),
             );
           },
@@ -44,12 +46,12 @@ class _ChatState extends State<Chat> {
               CircleAvatar(
                 maxRadius: 20,
                 backgroundImage: const AssetImage('assets/default_ava.png'),
-                foregroundImage: AssetImage(widget.imageUrl),
+                foregroundImage: AssetImage(widget.neighbour.imageUrl),
               ),
               Container(
                 margin: const EdgeInsets.only(left: 10),
                 child: Text(
-                  widget.name,
+                  '${widget.neighbour.name} ${widget.neighbour.surname}',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -75,12 +77,12 @@ class _ChatState extends State<Chat> {
                   return index % 2 == 0
                       ? MessageTile(
                           message: 'Привет',
-                          timeSend: DateTime(2000, 3, 4, 17, 30),
+                          timeSend: Timestamp.now(),
                         )
                       : MessageTile(
                           message:
                               'Ну и пойду, ну и посплю, ну и очень то мне хочется, ну и да',
-                          timeSend: DateTime(2000, 3, 4, 6, 5),
+                          timeSend: Timestamp.now(),
                           isYours: true,
                         );
                 },

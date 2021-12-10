@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import 'ui_components.dart';
 import '/appdata/consts.dart';
 import '/appdata/funcs.dart';
-import '/widgets/appbar.dart';
 
 class AdminWelcome extends StatelessWidget {
   const AdminWelcome({Key? key}) : super(key: key);
@@ -24,7 +24,7 @@ class AdminWelcome extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  const CustomAppBar(leading: true),
+                  const CustomAppBar(),
                   Image.asset(
                     'assets/MacBook_green.png',
                     height: 300,

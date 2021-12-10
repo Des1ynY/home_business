@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '/ui/home/people/neighbour_profile.dart';
+import '/models/neighbour_model.dart';
 import '/appdata/consts.dart';
 
 class NeigbourProfileTile extends StatelessWidget {
   const NeigbourProfileTile({
-    required this.name,
-    required this.bio,
-    required this.apartment,
-    required this.imageUrl,
-    required this.heroTag,
+    required this.neighbour,
     Key? key,
   }) : super(key: key);
 
-  final String name, bio, apartment, imageUrl, heroTag;
+  final Neighbour neighbour;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +23,7 @@ class NeigbourProfileTile extends StatelessWidget {
             onPressed: (context) {},
             spacing: 0,
             backgroundColor: primaryColor,
-            foregroundColor: Colors.black,
+            foregroundColor: Colors.white,
             icon: Icons.send_rounded,
             label: 'Написать',
           )
@@ -37,13 +34,7 @@ class NeigbourProfileTile extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => NeighbourProfile(
-                name: name,
-                bio: bio,
-                imageUrl: imageUrl,
-                apartment: apartment,
-                heroTag: heroTag,
-              ),
+              builder: (context) => NeighbourProfile(neighbour: neighbour),
             ),
           );
         },
@@ -58,11 +49,13 @@ class NeigbourProfileTile extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.only(right: 10),
                 child: Hero(
-                  tag: heroTag,
+                  tag: neighbour.uid,
                   child: CircleAvatar(
                     radius: 50,
                     backgroundImage: const AssetImage('assets/default_ava.png'),
-                    foregroundImage: NetworkImage(imageUrl),
+                    foregroundImage: neighbour.imageUrl == 'unknown'
+                        ? null
+                        : NetworkImage(neighbour.imageUrl),
                   ),
                 ),
               ),
@@ -77,7 +70,7 @@ class NeigbourProfileTile extends StatelessWidget {
                           child: Container(
                             margin: const EdgeInsets.only(right: 5),
                             child: Text(
-                              name,
+                              "${neighbour.name} ${neighbour.surname}",
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
@@ -88,7 +81,7 @@ class NeigbourProfileTile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'кв. $apartment',
+                          'кв. ${neighbour.apartment}',
                           style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w300,
@@ -97,32 +90,34 @@ class NeigbourProfileTile extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Flexible(
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 5),
-                        child: RichText(
-                          maxLines: 2,
-                          textAlign: TextAlign.left,
-                          overflow: TextOverflow.ellipsis,
-                          text: TextSpan(
-                            text: 'О себе: ',
-                            style: const TextStyle(
-                              fontFamily: 'AvenirNextCyr',
-                              color: primaryColor,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: bio,
-                                style: const TextStyle(
-                                  fontFamily: 'AvenirNextCyr',
-                                  color: textColor,
+                    neighbour.bio == ''
+                        ? Container()
+                        : Flexible(
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 5),
+                              child: RichText(
+                                maxLines: 2,
+                                textAlign: TextAlign.left,
+                                overflow: TextOverflow.ellipsis,
+                                text: TextSpan(
+                                  text: 'О себе: ',
+                                  style: const TextStyle(
+                                    fontFamily: 'AvenirNextCyr',
+                                    color: primaryColor,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: neighbour.bio,
+                                      style: const TextStyle(
+                                        fontFamily: 'AvenirNextCyr',
+                                        color: textColor,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),

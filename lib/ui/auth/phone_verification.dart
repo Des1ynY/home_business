@@ -214,12 +214,11 @@ class _PhoneVerificationState extends State<PhoneVerification> {
     User user = userCredential.user!;
 
     if (!await UsersDatabase.checkUser(user.uid)) {
-      AppUser appUser = AppUser();
-      appUser.phone = _phone;
-      appUser.uid = user.uid;
+      AppUser.phone = _phone;
+      AppUser.uid = user.uid;
 
-      await UsersDatabase.setUser(appUser.uid, appUser.toJson());
-      LocalDataStorage.setUserData(appUser.toJson());
+      await UsersDatabase.setUser(AppUser.uid, AppUser.toJson());
+      LocalDataStorage.setUserData(AppUser.toJson());
       Navigator.pushNamedAndRemoveUntil(
           context, successRoute, (route) => false);
     } else {

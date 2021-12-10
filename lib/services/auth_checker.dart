@@ -13,7 +13,7 @@ class AuthChecker extends StatelessWidget {
     User? currentUser = context.watch<User?>();
 
     if (currentUser != null) {
-      return const ScreensProvider();
+      return const HomeScreens();
     } else {
       return const Welcome();
     }

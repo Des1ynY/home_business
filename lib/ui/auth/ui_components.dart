@@ -32,3 +32,32 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
+
+class CustomAppBar extends StatelessWidget {
+  const CustomAppBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50,
+      width: MediaQuery.of(context).size.width,
+      color: Colors.transparent,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: SizedBox(
+              height: 50,
+              child: Image.asset(
+                'assets/back_button.png',
+                width: 30,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}

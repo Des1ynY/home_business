@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import '/appdata/funcs.dart';
+import '/models/app_user.dart';
+import '/services/firebase_db.dart';
+import '/models/chat_model.dart';
+import '/models/neighbour_model.dart';
 import '/ui/home/chat/chat.dart';
 import '/appdata/consts.dart';
 
 class ChatroomTile extends StatefulWidget {
   const ChatroomTile({
-    required this.message,
-    required this.speaker,
-    required this.avatar,
-    required this.time,
-    this.isYours = false,
+    required this.chatInfo,
+    required this.neighbour,
     Key? key,
   }) : super(key: key);
 
-  final String message, speaker, avatar, time;
-  final bool isYours;
+  final Chatroom chatInfo;
+  final Neighbour neighbour;
 
   @override
   _ChatroomTileState createState() => _ChatroomTileState();
@@ -30,7 +32,9 @@ class _ChatroomTileState extends State<ChatroomTile> {
         children: [
           SlidableAction(
             // todo: implemet chatroom delete
-            onPressed: (context) {},
+            onPressed: (context) async {
+              await ChatsDatabase.deleteChat(widget.chatInfo.uid);
+            },
             flex: 1,
             spacing: 0,
             backgroundColor: const Color(0xFFF96060),
@@ -46,8 +50,8 @@ class _ChatroomTileState extends State<ChatroomTile> {
             context,
             MaterialPageRoute(
               builder: (context) => Chat(
-                name: widget.speaker,
-                imageUrl: widget.avatar,
+                neighbour: widget.neighbour,
+                chatInfo: widget.chatInfo,
               ),
             ),
           );
@@ -65,7 +69,7 @@ class _ChatroomTileState extends State<ChatroomTile> {
                 child: CircleAvatar(
                   radius: 35,
                   backgroundImage: const AssetImage('assets/default_ava.png'),
-                  foregroundImage: AssetImage(widget.avatar),
+                  foregroundImage: NetworkImage(widget.neighbour.imageUrl),
                 ),
               ),
               Expanded(
@@ -78,7 +82,7 @@ class _ChatroomTileState extends State<ChatroomTile> {
                         Flexible(
                           child: SizedBox(
                             child: Text(
-                              widget.speaker,
+                              '${widget.neighbour.imageUrl} ${widget.neighbour.surname}',
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
@@ -89,7 +93,7 @@ class _ChatroomTileState extends State<ChatroomTile> {
                           ),
                         ),
                         Text(
-                          widget.time,
+                          getTimeSend(widget.chatInfo.sendTime),
                           style: const TextStyle(
                             fontSize: 12,
                             color: hintTextColor,
@@ -103,7 +107,7 @@ class _ChatroomTileState extends State<ChatroomTile> {
                         Flexible(
                           child: Container(
                             margin: const EdgeInsets.only(right: 15, top: 5),
-                            child: widget.isYours
+                            child: widget.chatInfo.senderId == AppUser.uid
                                 ? RichText(
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -115,7 +119,7 @@ class _ChatroomTileState extends State<ChatroomTile> {
                                       ),
                                       children: [
                                         TextSpan(
-                                          text: widget.message,
+                                          text: widget.chatInfo.content,
                                           style: const TextStyle(
                                             fontFamily: 'AvenirNextCyr',
                                             color: Color(0xFF707070),
@@ -125,7 +129,7 @@ class _ChatroomTileState extends State<ChatroomTile> {
                                     ),
                                   )
                                 : Text(
-                                    widget.message,
+                                    widget.chatInfo.content,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(

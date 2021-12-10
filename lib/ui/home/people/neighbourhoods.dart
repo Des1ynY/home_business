@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '/appdata/consts.dart';
+import '/models/app_user.dart';
+import '/models/neighbour_model.dart';
+import '/services/firebase_db.dart';
 import 'neighbour_tile.dart';
 
 class Residents extends StatefulWidget {
@@ -10,53 +15,50 @@ class Residents extends StatefulWidget {
 }
 
 class _ResidentsState extends State<Residents> {
-  static const List<Widget> _neigbours = <Widget>[
-    NeigbourProfileTile(
-      name: 'Космонавт Бывший',
-      bio:
-          'Бывший космонавт, работал на МКС с 2014 по 2025 годы. Люблю читать и летать.',
-      apartment: '123',
-      imageUrl:
-          'https://www.meme-arsenal.com/memes/4558599e1a8d184795a2ccbb0606ed22.jpg',
-      heroTag: 'neigbour_1',
-    ),
-    NeigbourProfileTile(
-      name: 'Бывшая космонавта',
-      bio:
-          'Бывшая космонавта, работала на СКМ с 2025 по 2014 годы. Не люблю читать и летать.',
-      apartment: '321',
-      imageUrl:
-          'https://i.pinimg.com/originals/63/c5/dd/63c5ddd6176dd503ca9e45e231fd1be8.jpg',
-      heroTag: 'neigbour_2',
-    ),
-    NeigbourProfileTile(
-      name: 'Работник МКС',
-      bio: 'Эти двое сверху заколебали весь дом... На самом деле я Игорь.',
-      apartment: '666',
-      imageUrl: 'https://s00.yaplakal.com/pics/pics_original/3/0/1/7033103.jpg',
-      heroTag: 'neigbour_3',
-    ),
-    NeigbourProfileTile(
-      name: 'Иван Пиреев',
-      bio: 'Я создал этот зверинец',
-      apartment: '1',
-      imageUrl:
-          'https://i.pinimg.com/originals/3f/ef/9f/3fef9f35f46e15fb86605cdab22fbf2e.jpg',
-      heroTag: 'neigbour_4',
-    ),
-  ];
+  late Stream<QuerySnapshot<Map<String, dynamic>>> usersStream;
+  bool _isLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    usersStream = UsersDatabase.getAllUsers(AppUser.uid);
+    setState(() {
+      _isLoaded = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ListView.builder(
-          itemCount: _neigbours.length,
-          itemBuilder: (context, index) {
-            return _neigbours.elementAt(index % _neigbours.length);
-          },
-        ),
-      ],
+    return _isLoaded
+        ? _neighbourhoods()
+        : const Center(
+            child: CircularProgressIndicator(
+              color: primaryColor,
+              backgroundColor: Colors.white,
+            ),
+          );
+  }
+
+  Widget _neighbourhoods() {
+    return StreamBuilder(
+      stream: usersStream,
+      builder: (
+        context,
+        AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
+      ) {
+        return snapshot.hasData
+            ? ListView.builder(
+                itemCount: snapshot.data?.docs.length,
+                itemBuilder: (context, index) {
+                  var doc = snapshot.data?.docs.elementAt(index);
+                  Map<String, dynamic> json = doc?.data() ?? {};
+                  Neighbour neighbour = Neighbour.fromJson(json);
+
+                  return NeigbourProfileTile(neighbour: neighbour);
+                },
+              )
+            : Container();
+      },
     );
   }
 }

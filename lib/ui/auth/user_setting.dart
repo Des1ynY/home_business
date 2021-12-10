@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'ui_components.dart';
 import 'sign_up.dart';
 import '/models/app_user.dart';
 import '/appdata/consts.dart';
-import '/widgets/button.dart';
 
 class UserSettings extends StatefulWidget {
   const UserSettings({Key? key}) : super(key: key);
@@ -144,10 +144,9 @@ class _UserSettingsState extends State<UserSettings> {
     bool formIsValid = _formKey.currentState?.validate() ?? false;
 
     if (formIsValid) {
-      var user = AppUser();
-      user.name = _name.trim();
-      user.surname = _surname.trim();
-      user.bio = _bio.trim();
+      AppUser.name = _name.trim();
+      AppUser.surname = _surname.trim();
+      AppUser.bio = _bio.trim();
 
       loginCurrentPage += 1;
       loginPageController.animateToPage(

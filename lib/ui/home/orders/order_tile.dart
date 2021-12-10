@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '/models/neighbour_model.dart';
+import '/models/order_model.dart';
 import '/appdata/consts.dart';
 
 class OrderTile extends StatefulWidget {
   const OrderTile({
-    required this.worker,
-    required this.imageUrl,
-    required this.title,
-    required this.orderId,
-    this.description = '',
-    this.price = '',
-    this.tags = '',
+    required this.order,
+    required this.author,
     Key? key,
   }) : super(key: key);
 
-  final String imageUrl, worker;
-  final String title, description;
-  final String price, tags;
-  final String orderId;
+  final Order order;
+  final Neighbour author;
 
   @override
   _OrderTileState createState() => _OrderTileState();
@@ -26,9 +21,6 @@ class OrderTile extends StatefulWidget {
 class _OrderTileState extends State<OrderTile> {
   @override
   Widget build(BuildContext context) {
-    List<String> tagList = widget.price.isNotEmpty ? [widget.price] : [];
-    if (widget.tags.isNotEmpty) tagList.addAll(widget.tags.split(' '));
-
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5),
       constraints: BoxConstraints(
@@ -63,10 +55,13 @@ class _OrderTileState extends State<OrderTile> {
                               radius: 12,
                               backgroundImage:
                                   const AssetImage('assets/default_ava.png'),
-                              foregroundImage: NetworkImage(widget.imageUrl),
+                              foregroundImage:
+                                  NetworkImage(widget.author.imageUrl),
                             ),
                           ),
-                          Text(widget.worker),
+                          Text(
+                            '${widget.author.name} ${widget.author.surname}',
+                          ),
                         ],
                       ),
                     ],
@@ -75,24 +70,25 @@ class _OrderTileState extends State<OrderTile> {
                 SizedBox(
                   height: 25,
                   child: Text(
-                    widget.title,
+                    widget.order.title,
                     style: Theme.of(context).textTheme.headline2,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                tagList.isNotEmpty
+                widget.order.tags.isNotEmpty
                     ? Container(
                         height: 30,
                         margin: const EdgeInsets.only(top: 10, bottom: 10),
                         child: ListView.builder(
-                          itemCount: tagList.length,
+                          itemCount: widget.order.tags.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
-                            return widget.price.isEmpty
-                                ? _getTagTile(tagList.elementAt(index))
+                            return widget.order.price.isEmpty
+                                ? _getTagTile(
+                                    widget.order.tags.elementAt(index))
                                 : _getTagTile(
-                                    tagList.elementAt(index),
+                                    widget.order.tags.elementAt(index),
                                     isPriceTile: index == 0,
                                   );
                           },
@@ -101,7 +97,7 @@ class _OrderTileState extends State<OrderTile> {
                     : Container(),
                 Flexible(
                   child: Text(
-                    widget.description,
+                    widget.order.description,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 16),
@@ -135,7 +131,7 @@ class _OrderTileState extends State<OrderTile> {
             ),
             child: Center(
               child: Text(
-                '${widget.price} руб.',
+                '${widget.order.price} руб.',
                 style: const TextStyle(color: primaryColor),
               ),
             ),

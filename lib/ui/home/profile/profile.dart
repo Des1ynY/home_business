@@ -15,12 +15,11 @@ class AppUserProfile extends StatefulWidget {
 
 class _AppUserProfileState extends State<AppUserProfile> {
   final TextEditingController _controller = TextEditingController();
-  final user = AppUser();
 
   @override
   void initState() {
     super.initState();
-    _controller.text = user.bio;
+    _controller.text = AppUser.bio;
   }
 
   @override
@@ -51,17 +50,19 @@ class _AppUserProfileState extends State<AppUserProfile> {
           child: CircleAvatar(
             radius: 100,
             backgroundImage: const AssetImage('assets/default_ava.png'),
-            foregroundImage: NetworkImage(user.imageUrl),
+            foregroundImage: AppUser.imageUrl == 'unknown'
+                ? null
+                : NetworkImage(AppUser.imageUrl),
           ),
         ),
         Text(
-          '${user.name} ${user.surname}',
+          '${AppUser.name} ${AppUser.surname}',
           style: Theme.of(context).textTheme.headline2,
         ),
         Container(
           margin: const EdgeInsets.only(top: 5),
           child: Text(
-            'ул. ${user.street}, ${user.home}-${user.apartment}, подъезд №${user.approach}',
+            'ул. ${AppUser.street}, ${AppUser.building}-${AppUser.apartment}, подъезд №${AppUser.approach}',
             maxLines: 2,
             style: const TextStyle(color: darkGrey),
           ),

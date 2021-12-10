@@ -15,7 +15,7 @@ Future main() async {
   await Firebase.initializeApp();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await LocalDataStorage.init();
-  AppUser().setUser(LocalDataStorage.getUserData(AppUser.keys()));
+  AppUser.setUser(LocalDataStorage.getUserData(AppUser.keys()));
 
   runApp(const HomeBusiness());
 }

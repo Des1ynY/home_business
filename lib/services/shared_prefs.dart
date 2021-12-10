@@ -7,9 +7,9 @@ class LocalDataStorage {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  static void setUserData(Map<String, String> data) {
+  static void setUserData(Map<String, dynamic> data) {
     data.forEach((key, value) async {
-      await _prefs.setString(key, value);
+      await _prefs.setString(key, value.toString());
     });
   }
 

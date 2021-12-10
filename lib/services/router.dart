@@ -30,7 +30,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case successRoute:
       return MaterialPageRoute(builder: (context) => const SuccessLogin());
     case homescreenRoute:
-      return MaterialPageRoute(builder: (context) => const ScreensProvider());
+      return MaterialPageRoute(builder: (context) => const HomeScreens());
     case userSettingsRoute:
       return MaterialPageRoute(builder: (context) => const AppUserSettings());
     default:

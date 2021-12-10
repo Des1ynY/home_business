@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'ui_components.dart';
 import '/appdata/consts.dart';
 import '/appdata/funcs.dart';
 import '/ui/auth/address_setting.dart';
 import '/ui/auth/phone_verification.dart';
 import '/ui/auth/user_setting.dart';
-import '/widgets/appbar.dart';
 
 final PageController loginPageController = PageController();
 int loginCurrentPage = 0;
@@ -29,7 +29,7 @@ class _SignUpState extends State<SignUp> {
             children: [
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
-                child: CustomAppBar(leading: true),
+                child: CustomAppBar(),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

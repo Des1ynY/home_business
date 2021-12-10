@@ -1,5 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '/appdata/consts.dart';
+import '/models/app_user.dart';
+import '/models/neighbour_model.dart';
+import '/models/order_model.dart';
+import '/services/firebase_db.dart';
 import '/ui/home/orders/order_tile.dart';
 
 class HomeServices extends StatefulWidget {
@@ -10,51 +16,127 @@ class HomeServices extends StatefulWidget {
 }
 
 class _HomeServicesState extends State<HomeServices> {
-  static const List<Widget> _orders = <Widget>[
-    OrderTile(
-      worker: 'Космонавт Бывший',
-      imageUrl:
-          'https://www.meme-arsenal.com/memes/4558599e1a8d184795a2ccbb0606ed22.jpg',
-      title: 'Я хлебп',
-      orderId: '1',
-    ),
-    OrderTile(
-      worker: 'Бывшая Космонавта',
-      imageUrl:
-          'https://i.pinimg.com/originals/63/c5/dd/63c5ddd6176dd503ca9e45e231fd1be8.jpg',
-      title: 'Похохочем',
-      description: 'За подробностями в лс.',
-      tags: 'Культура Общение Юмор',
-      orderId: '2',
-    ),
-    OrderTile(
-      worker: 'Работник МКС',
-      imageUrl: 'https://s00.yaplakal.com/pics/pics_original/3/0/1/7033103.jpg',
-      title: 'Селфи на фоне Земли',
-      description:
-          'За относительно небольшую плату сделаю селфи на фоне Земли из иллюминатора МКС.',
-      price: '50000 - 100000',
-      tags: 'Фото Космос',
-      orderId: '3',
-    ),
-    OrderTile(
-      worker: 'Иван Пиреев',
-      imageUrl:
-          'https://i.pinimg.com/originals/3f/ef/9f/3fef9f35f46e15fb86605cdab22fbf2e.jpg',
-      title: 'Мобильное приложение на Flutter под Android',
-      description:
-          'Сделаю мобильное приложение на Flutter. Изучаю Dart примерно полгода, умею делать интерфейсы почти любой сложности, работаю с базой данных Firebase.',
-      price: 'от 5000',
-      tags: 'Mobile Flutter Android iOS Firebase UI UX',
-      orderId: '4',
-    ),
-  ];
+  late Stream<QuerySnapshot<Map<String, dynamic>>> neighbourOrdersStream;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> yourOrdersStream;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> usersStream;
+  bool _isLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    neighbourOrdersStream = OrdersDatabase.getAllOrders(AppUser.uid);
+    yourOrdersStream = OrdersDatabase.getUserOrders(AppUser.uid);
+    usersStream = UsersDatabase.getAllUsers(AppUser.uid);
+    setState(() {
+      _isLoaded = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        return _orders.elementAt(index % _orders.length);
+    return TabBarView(
+      children: [
+        _isLoaded
+            ? _neighbourOrders()
+            : const Center(
+                child: CircularProgressIndicator(
+                  color: primaryColor,
+                  backgroundColor: Colors.white,
+                ),
+              ),
+        _isLoaded
+            ? _yourOrders()
+            : const Center(
+                child: CircularProgressIndicator(
+                  color: primaryColor,
+                  backgroundColor: Colors.white,
+                ),
+              )
+      ],
+    );
+  }
+
+  Widget _neighbourOrders() {
+    return StreamBuilder(
+      stream: neighbourOrdersStream,
+      builder: (
+        context,
+        AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> orderSnapshot,
+      ) {
+        if (orderSnapshot.hasData) {
+          return orderSnapshot.data!.docs.isNotEmpty
+              ? ListView.builder(
+                  itemCount: orderSnapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    var doc = orderSnapshot.data!.docs.elementAt(index);
+                    Map<String, dynamic> orderJson = doc.data();
+                    Order order = Order.fromJson(orderJson);
+
+                    return StreamBuilder(
+                      stream: usersStream,
+                      builder: (context,
+                          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                              userSnapshot) {
+                        var doc = userSnapshot.data?.docs.firstWhere(
+                            (element) => element['uid'] == order.authorId);
+                        Map<String, dynamic> userJson = doc?.data() ?? {};
+                        Neighbour neighbour = Neighbour.fromJson(userJson);
+
+                        return OrderTile(order: order, author: neighbour);
+                      },
+                    );
+                  },
+                )
+              : const Center(
+                  child: Text(
+                    'Предложений нет',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: darkGrey,
+                    ),
+                  ),
+                );
+        } else {
+          return Container();
+        }
+      },
+    );
+  }
+
+  Widget _yourOrders() {
+    return StreamBuilder(
+      stream: yourOrdersStream,
+      builder: (
+        context,
+        AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
+      ) {
+        if (snapshot.hasData) {
+          return snapshot.data!.docs.isNotEmpty
+              ? ListView.builder(
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    var doc = snapshot.data!.docs.elementAt(index);
+                    Map<String, dynamic> json = doc.data();
+                    Order order = Order.fromJson(json);
+                    Neighbour author = Neighbour.fromJson(AppUser.toJson());
+
+                    return OrderTile(order: order, author: author);
+                  },
+                )
+              : const Center(
+                  child: Text(
+                    'Не предоставляете услуг',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: darkGrey,
+                    ),
+                  ),
+                );
+        } else {
+          return Container();
+        }
       },
     );
   }

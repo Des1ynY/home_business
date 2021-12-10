@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'ui_components.dart';
 import '/services/router.dart';
 import 'sign_up.dart';
 import '/appdata/funcs.dart';
-import '/widgets/button.dart';
 import '/models/app_user.dart';
 import '/appdata/consts.dart';
 
@@ -222,12 +222,11 @@ class _AddressSettingsState extends State<AddressSettings> {
     bool formIsValid = _formKey.currentState?.validate() ?? false;
 
     if (formIsValid) {
-      var user = AppUser();
-      user.city = _city.trim();
-      user.street = _street.trim();
-      user.home = _home.trim();
-      user.approach = _approach.trim();
-      user.apartment = _apartment.trim();
+      AppUser.city = _city.trim();
+      AppUser.street = _street.trim();
+      AppUser.building = _home.trim();
+      AppUser.approach = _approach.trim();
+      AppUser.apartment = _apartment.trim();
 
       loginCurrentPage += 1;
       loginPageController.animateToPage(

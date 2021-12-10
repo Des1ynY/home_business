@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '/ui/home/orders/order_tile.dart';
+import '/models/neighbour_model.dart';
 import '/appdata/consts.dart';
 
 class NeighbourProfile extends StatefulWidget {
   const NeighbourProfile({
-    required this.name,
-    required this.bio,
-    required this.imageUrl,
-    required this.apartment,
-    this.heroTag = '',
+    required this.neighbour,
     Key? key,
   }) : super(key: key);
 
-  final String imageUrl, name, apartment, bio, heroTag;
+  final Neighbour neighbour;
 
   @override
   _NeighbourProfileState createState() => _NeighbourProfileState();
@@ -26,7 +22,7 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
   @override
   void initState() {
     super.initState();
-    _controller.text = widget.bio;
+    _controller.text = widget.neighbour.bio;
   }
 
   @override
@@ -60,20 +56,22 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
           Container(
             margin: const EdgeInsets.only(bottom: 10),
             child: Hero(
-              tag: widget.heroTag,
+              tag: widget.neighbour.uid,
               child: CircleAvatar(
                 radius: 100,
                 backgroundImage: const AssetImage('assets/default_ava.png'),
-                foregroundImage: NetworkImage(widget.imageUrl),
+                foregroundImage: widget.neighbour.imageUrl == 'unknown'
+                    ? null
+                    : NetworkImage(widget.neighbour.imageUrl),
               ),
             ),
           ),
           Text(
-            widget.name,
+            "${widget.neighbour.name} ${widget.neighbour.surname}",
             style: Theme.of(context).textTheme.headline2,
           ),
           Text(
-            'кв. ${widget.apartment}',
+            'кв. ${widget.neighbour.apartment}',
             style: const TextStyle(color: darkGrey),
           ),
           Container(
@@ -163,36 +161,7 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
   }
 
   Widget _getServicesData(BuildContext context) {
-    List<Widget> orders = [
-      OrderTile(
-        worker: widget.name,
-        imageUrl: widget.imageUrl,
-        title: 'Селфи на фоне Земли',
-        description:
-            'За относительно небольшую плату сделаю селфи на фоне Земли из иллюминатора МКС.',
-        price: '50000 - 100000',
-        tags: 'Фото Космос',
-        orderId: '3',
-      ),
-      OrderTile(
-        worker: widget.name,
-        imageUrl: widget.imageUrl,
-        title: 'Похохочем',
-        description: 'За подробностями в лс.',
-        tags: 'Культура Общение Юмор',
-        orderId: '2',
-      ),
-      OrderTile(
-        worker: widget.name,
-        imageUrl: widget.imageUrl,
-        title: 'Мобильное приложение на Flutter под Android',
-        description:
-            'Сделаю мобильное приложение на Flutter. Изучаю Dart примерно полгода, умею делать интерфейсы почти любой сложности, работаю с базой данных Firebase.',
-        price: 'от 5000',
-        tags: 'Mobile Flutter Android iOS Firebase UI UX',
-        orderId: '4',
-      )
-    ];
+    List<Widget> orders = [];
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,

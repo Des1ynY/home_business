@@ -3,13 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import 'ui_components.dart';
 import '/services/firebase_db.dart';
 import '/services/firebase_auth.dart';
-import '/services/router.dart';
+import '/ui/home/screens.dart';
 import '/services/shared_prefs.dart';
 import '/appdata/consts.dart';
 import '/appdata/funcs.dart';
-import '/widgets/appbar.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -40,7 +40,7 @@ class _SignInState extends State<SignIn> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const CustomAppBar(leading: true),
+                    const CustomAppBar(),
                     Container(
                       margin: const EdgeInsets.only(top: 40),
                       child: Text(
@@ -223,11 +223,21 @@ class _SignInState extends State<SignIn> {
     User user = userCredential.user!;
 
     if (await UsersDatabase.checkUser(user.uid)) {
-      DocumentSnapshot doc = await UsersDatabase.getUser(user.uid);
-      var json = doc.data() as Map<String, String>;
+      FutureBuilder(
+        future: UsersDatabase.getUser(user.uid),
+        builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.hasData) {
+            var json = snapshot.data?.data() as Map<String, dynamic>;
 
-      LocalDataStorage.setUserData(json);
-      Navigator.pushReplacementNamed(context, homescreenRoute);
+            LocalDataStorage.setUserData(json);
+            Navigator.pop(context);
+
+            return const HomeScreens();
+          } else {
+            return Container();
+          }
+        },
+      );
     } else {
       Navigator.pop(context);
       Fluttertoast.showToast(

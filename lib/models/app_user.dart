@@ -7,19 +7,19 @@ class AppUser {
     return _instance;
   }
 
-  String uid = 'unknown';
-  String name = 'unknown';
-  String surname = 'unknown';
-  String bio = 'unknown';
-  String phone = 'unknown';
-  String city = 'unknown';
-  String street = 'unknown';
-  String home = 'unknown';
-  String approach = 'unknown';
-  String apartment = 'unknown';
-  String imageUrl = 'unknown';
+  static String uid = 'unknown';
+  static String name = 'unknown';
+  static String surname = 'unknown';
+  static String bio = 'unknown';
+  static String phone = 'unknown';
+  static String city = 'unknown';
+  static String street = 'unknown';
+  static String building = 'unknown';
+  static String approach = 'unknown';
+  static String apartment = 'unknown';
+  static String imageUrl = 'unknown';
 
-  void setUser(Map<String, String> data) {
+  static void setUser(Map<String, String> data) {
     uid = data['uid']!;
     name = data['name']!;
     surname = data['surname']!;
@@ -27,13 +27,13 @@ class AppUser {
     phone = data['phone']!;
     city = data['city']!;
     street = data['street']!;
-    home = data['home']!;
+    building = data['building']!;
     approach = data['approach']!;
     apartment = data['apartment']!;
     imageUrl = data['imageUrl']!;
   }
 
-  Map<String, String> toJson() {
+  static Map<String, String> toJson() {
     return {
       'uid': uid,
       'name': name,
@@ -42,7 +42,7 @@ class AppUser {
       'phone': phone,
       'city': city,
       'street': street,
-      'home': home,
+      'building': building,
       'approach': approach,
       'apartment': apartment,
       'imageUrl': imageUrl,
@@ -58,7 +58,7 @@ class AppUser {
       'phone',
       'city',
       'street',
-      'home',
+      'building',
       'approach',
       'apartment',
       'imageUrl'
