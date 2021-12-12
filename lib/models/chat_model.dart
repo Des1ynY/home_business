@@ -4,7 +4,7 @@ class Chatroom {
   Chatroom({
     required this.content,
     required this.senderId,
-    required this.sendTime,
+    required this.timeSend,
     required this.users,
     required this.uid,
   });
@@ -13,14 +13,14 @@ class Chatroom {
     return Chatroom(
       content: json['content'],
       senderId: json['senderId'],
-      sendTime: json['sendTime'],
+      timeSend: json['timeSend'],
       users: json['users'],
       uid: json['uid'],
     );
   }
 
   String content, senderId;
-  Timestamp sendTime;
+  Timestamp timeSend;
   List<dynamic> users;
   String uid;
 
@@ -28,7 +28,7 @@ class Chatroom {
     return {
       'content': content,
       'senderId': senderId,
-      'sendTime': sendTime,
+      'timeSend': timeSend,
       'users': users,
       'uid': uid,
     };

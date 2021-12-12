@@ -1,11 +1,22 @@
+import 'dart:convert';
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+import '/models/app_user.dart';
+import '/models/neighbour_model.dart';
+import '/services/firebase_db.dart';
+import '/ui/home/chat/chat.dart';
 import 'package:sprintf/sprintf.dart';
 
 double getScaffoldHeight(BuildContext context) {
   return MediaQuery.of(context).size.height -
       MediaQuery.of(context).padding.top -
       MediaQuery.of(context).padding.bottom;
+}
+
+double getScaffoldHeightWithoutAppbar(BuildContext context) {
+  return getScaffoldHeight(context) - 56;
 }
 
 EdgeInsetsGeometry getSafeAreaPadding(BuildContext context) {
@@ -59,4 +70,41 @@ String getTimeSend(Timestamp timestamp) {
   DateTime time = timestamp.toDate();
 
   return sprintf('%d:%02d', [time.hour, time.minute]);
+}
+
+String getChatId(String userId, String neighbourId) {
+  int comparationResult = userId.compareTo(neighbourId);
+
+  return comparationResult <= 0
+      ? '$userId.$neighbourId'
+      : '$neighbourId.$userId';
+}
+
+String getUID({int len = 28}) {
+  var random = Random();
+  var values = List<int>.generate(len, (i) => random.nextInt(255));
+  return base64UrlEncode(values);
+}
+
+enterChatroom(BuildContext context, Neighbour neighbour) async {
+  String chatId = getChatId(
+    AppUser.uid,
+    neighbour.uid,
+  );
+
+  if (!await ChatsDatabase.checkChat(chatId)) {
+    await ChatsDatabase.createChat(
+      chatId,
+      {
+        'uid': chatId,
+        'users': [AppUser.uid, neighbour.uid],
+      },
+    );
+  }
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => Chat(chatId: chatId, neighbour: neighbour),
+    ),
+  );
 }

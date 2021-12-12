@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'ui_components.dart';
+import '/ui/ui_components.dart';
 import 'sign_up.dart';
 import '/models/app_user.dart';
 import '/appdata/consts.dart';

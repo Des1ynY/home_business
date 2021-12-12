@@ -23,6 +23,11 @@ class CustomTheme {
         fontWeight: FontWeight.w300,
         color: textColor,
       ),
+      subtitle2: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w300,
+        color: hintTextColor,
+      ),
       bodyText1: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.normal,

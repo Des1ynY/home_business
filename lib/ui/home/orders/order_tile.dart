@@ -56,7 +56,9 @@ class _OrderTileState extends State<OrderTile> {
                               backgroundImage:
                                   const AssetImage('assets/default_ava.png'),
                               foregroundImage:
-                                  NetworkImage(widget.author.imageUrl),
+                                  widget.author.imageUrl == 'unknown'
+                                      ? null
+                                      : NetworkImage(widget.author.imageUrl),
                             ),
                           ),
                           Text(
@@ -76,25 +78,19 @@ class _OrderTileState extends State<OrderTile> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                widget.order.tags.isNotEmpty
-                    ? Container(
-                        height: 30,
-                        margin: const EdgeInsets.only(top: 10, bottom: 10),
-                        child: ListView.builder(
-                          itemCount: widget.order.tags.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return widget.order.price.isEmpty
-                                ? _getTagTile(
-                                    widget.order.tags.elementAt(index))
-                                : _getTagTile(
-                                    widget.order.tags.elementAt(index),
-                                    isPriceTile: index == 0,
-                                  );
-                          },
-                        ),
-                      )
-                    : Container(),
+                Container(
+                  height: 30,
+                  margin: const EdgeInsets.only(top: 10, bottom: 10),
+                  child: ListView.builder(
+                    itemCount: widget.order.tags.length + 1,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return index == 0
+                          ? _getTagTile(widget.order.price, isPriceTile: true)
+                          : _getTagTile(widget.order.tags.elementAt(index - 1));
+                    },
+                  ),
+                ),
                 Flexible(
                   child: Text(
                     widget.order.description,

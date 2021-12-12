@@ -1,20 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '/models/chat_model.dart';
+import '/appdata/funcs.dart';
+import '/models/app_user.dart';
+import '/models/message_model.dart';
+import '/ui/home/chat/message_tile.dart';
+import '/services/firebase_db.dart';
+import '/ui/ui_components.dart';
 import '/models/neighbour_model.dart';
 import '/ui/home/people/neighbour_profile.dart';
 import '/appdata/consts.dart';
-import '/ui/home/chat/message_tile.dart';
 
 class Chat extends StatefulWidget {
   const Chat({
-    required this.chatInfo,
+    required this.chatId,
     required this.neighbour,
     Key? key,
   }) : super(key: key);
 
-  final Chatroom chatInfo;
+  final String chatId;
   final Neighbour neighbour;
 
   @override
@@ -22,6 +26,19 @@ class Chat extends StatefulWidget {
 }
 
 class _ChatState extends State<Chat> {
+  final TextEditingController _controller = TextEditingController();
+  late Stream<QuerySnapshot<Map<String, dynamic>>> _messagesStream;
+  bool _isLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _messagesStream = ChatsDatabase.getMessages(widget.chatId);
+    setState(() {
+      _isLoaded = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +63,9 @@ class _ChatState extends State<Chat> {
               CircleAvatar(
                 maxRadius: 20,
                 backgroundImage: const AssetImage('assets/default_ava.png'),
-                foregroundImage: AssetImage(widget.neighbour.imageUrl),
+                foregroundImage: widget.neighbour.imageUrl == 'unknown'
+                    ? null
+                    : NetworkImage(widget.neighbour.imageUrl),
               ),
               Container(
                 margin: const EdgeInsets.only(left: 10),
@@ -68,46 +87,43 @@ class _ChatState extends State<Chat> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Expanded(
-            child: SizedBox(
-              child: ListView.builder(
-                shrinkWrap: true,
-                reverse: true,
-                itemCount: 15,
-                itemBuilder: (context, index) {
-                  return index % 2 == 0
-                      ? MessageTile(
-                          message: 'Привет',
-                          timeSend: Timestamp.now(),
-                        )
-                      : MessageTile(
-                          message:
-                              'Ну и пойду, ну и посплю, ну и очень то мне хочется, ну и да',
-                          timeSend: Timestamp.now(),
-                          isYours: true,
-                        );
-                },
-              ),
-            ),
+            child: _isLoaded ? _messages() : const LoadingIndicator(),
           ),
-          const _MessageField(),
+          _inputField(),
         ],
       ),
     );
   }
-}
 
-class _MessageField extends StatefulWidget {
-  const _MessageField({Key? key}) : super(key: key);
+  Widget _messages() {
+    return StreamBuilder(
+      stream: _messagesStream,
+      builder: (
+        context,
+        AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
+      ) {
+        if (snapshot.hasData) {
+          return snapshot.data!.docs.isNotEmpty
+              ? ListView.builder(
+                  reverse: true,
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    var doc = snapshot.data!.docs.elementAt(index);
+                    Map<String, dynamic> json = doc.data();
+                    Message message = Message.fromJson(json);
 
-  @override
-  __MessageFieldState createState() => __MessageFieldState();
-}
+                    return MessageTile(message: message);
+                  },
+                )
+              : const MissingText(text: 'Начните общение!');
+        } else {
+          return Container();
+        }
+      },
+    );
+  }
 
-class __MessageFieldState extends State<_MessageField> {
-  final TextEditingController _controller = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _inputField() {
     return Container(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).padding.bottom + 15,
@@ -138,7 +154,7 @@ class __MessageFieldState extends State<_MessageField> {
               minLines: 1,
               maxLines: 5,
               textCapitalization: TextCapitalization.sentences,
-              keyboardType: TextInputType.text,
+              keyboardType: TextInputType.multiline,
               controller: _controller,
             ),
           ),
@@ -146,6 +162,7 @@ class __MessageFieldState extends State<_MessageField> {
             margin: const EdgeInsets.only(left: 5),
             child: GestureDetector(
               onTap: () {
+                _sendMessage();
                 setState(() {
                   _controller.text = '';
                 });
@@ -160,5 +177,17 @@ class __MessageFieldState extends State<_MessageField> {
         ],
       ),
     );
+  }
+
+  _sendMessage() async {
+    Message message = Message(
+      content: _controller.text.trim(),
+      senderId: AppUser.uid,
+      uid: getUID(),
+      timeSend: Timestamp.now(),
+    );
+
+    await ChatsDatabase.addMessage(widget.chatId, message.toJson());
+    await ChatsDatabase.updateChatLastMessage(widget.chatId, message.toJson());
   }
 }

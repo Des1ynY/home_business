@@ -6,7 +6,6 @@ import '/models/app_user.dart';
 import '/services/firebase_db.dart';
 import '/models/chat_model.dart';
 import '/models/neighbour_model.dart';
-import '/ui/home/chat/chat.dart';
 import '/appdata/consts.dart';
 
 class ChatroomTile extends StatefulWidget {
@@ -31,7 +30,6 @@ class _ChatroomTileState extends State<ChatroomTile> {
         motion: const ScrollMotion(),
         children: [
           SlidableAction(
-            // todo: implemet chatroom delete
             onPressed: (context) async {
               await ChatsDatabase.deleteChat(widget.chatInfo.uid);
             },
@@ -46,15 +44,7 @@ class _ChatroomTileState extends State<ChatroomTile> {
       ),
       child: RawMaterialButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Chat(
-                neighbour: widget.neighbour,
-                chatInfo: widget.chatInfo,
-              ),
-            ),
-          );
+          enterChatroom(context, widget.neighbour);
         },
         elevation: 0,
         child: Container(
@@ -82,7 +72,7 @@ class _ChatroomTileState extends State<ChatroomTile> {
                         Flexible(
                           child: SizedBox(
                             child: Text(
-                              '${widget.neighbour.imageUrl} ${widget.neighbour.surname}',
+                              '${widget.neighbour.name} ${widget.neighbour.surname}',
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
@@ -93,7 +83,7 @@ class _ChatroomTileState extends State<ChatroomTile> {
                           ),
                         ),
                         Text(
-                          getTimeSend(widget.chatInfo.sendTime),
+                          getTimeSend(widget.chatInfo.timeSend),
                           style: const TextStyle(
                             fontSize: 12,
                             color: hintTextColor,

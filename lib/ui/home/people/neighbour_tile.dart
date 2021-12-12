@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import '/appdata/funcs.dart';
 import '/ui/home/people/neighbour_profile.dart';
 import '/models/neighbour_model.dart';
 import '/appdata/consts.dart';
@@ -20,7 +21,7 @@ class NeigbourProfileTile extends StatelessWidget {
         motion: const ScrollMotion(),
         children: [
           SlidableAction(
-            onPressed: (context) {},
+            onPressed: (context) => enterChatroom(context, neighbour),
             spacing: 0,
             backgroundColor: primaryColor,
             foregroundColor: Colors.white,

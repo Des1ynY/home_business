@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'ui_components.dart';
+import '/ui/ui_components.dart';
 import '/appdata/consts.dart';
 import '/appdata/funcs.dart';
 

@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:home_business/services/router.dart';
 
-import 'ui_components.dart';
+import '/ui/ui_components.dart';
 import '/services/firebase_db.dart';
 import '/services/firebase_auth.dart';
 import '/ui/home/screens.dart';
@@ -185,7 +186,11 @@ class _SignInState extends State<SignIn> {
       await Auth.auth.verifyPhoneNumber(
         phoneNumber: makePhoneValid(_phone),
         timeout: const Duration(seconds: 60),
-        verificationCompleted: _verificationCompleted,
+        verificationCompleted: (phoneAuthCredential) async {
+          await _verificationCompleted(phoneAuthCredential);
+          Navigator.pushNamedAndRemoveUntil(
+              context, homescreenRoute, (route) => false);
+        },
         verificationFailed: (verificationFailed) async {
           setState(() {
             _isLoading = false;
@@ -214,7 +219,9 @@ class _SignInState extends State<SignIn> {
       smsCode: _otp,
     );
 
-    _verificationCompleted(phoneAuthCredential);
+    await _verificationCompleted(phoneAuthCredential);
+    Navigator.pushNamedAndRemoveUntil(
+        context, homescreenRoute, (route) => false);
   }
 
   _verificationCompleted(phoneAuthCredential) async {
@@ -223,23 +230,31 @@ class _SignInState extends State<SignIn> {
     User user = userCredential.user!;
 
     if (await UsersDatabase.checkUser(user.uid)) {
-      FutureBuilder(
-        future: UsersDatabase.getUser(user.uid),
-        builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+      StreamBuilder(
+        stream: UsersDatabase.getUser(user.uid),
+        builder: (
+          context,
+          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
+        ) {
           if (snapshot.hasData) {
-            var json = snapshot.data?.data() as Map<String, dynamic>;
-
+            var doc = snapshot.data!.docs.first;
+            Map<String, dynamic> json = doc.data();
             LocalDataStorage.setUserData(json);
-            Navigator.pop(context);
 
-            return const HomeScreens();
+            return Container();
           } else {
             return Container();
           }
         },
       );
     } else {
-      Navigator.pop(context);
+      setState(() {
+        _otp = '';
+        _otpSend = false;
+        _verificationID = '';
+        _phone = '';
+      });
+
       Fluttertoast.showToast(
         msg: 'Аккаута с таким номером не существует',
         backgroundColor: Colors.black.withOpacity(0.7),

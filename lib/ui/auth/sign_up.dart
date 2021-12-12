@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'ui_components.dart';
+import '/ui/ui_components.dart';
 import '/appdata/consts.dart';
 import '/appdata/funcs.dart';
 import '/ui/auth/address_setting.dart';

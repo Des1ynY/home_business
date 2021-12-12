@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '/appdata/consts.dart';
+import '/ui/ui_components.dart';
 import '/models/app_user.dart';
 import '/models/chat_model.dart';
 import '/models/neighbour_model.dart';
@@ -16,15 +16,15 @@ class Chatrooms extends StatefulWidget {
 }
 
 class _ChatroomsState extends State<Chatrooms> {
-  late Stream<QuerySnapshot<Map<String, dynamic>>> chatroomsStream;
-  late Stream<QuerySnapshot<Map<String, dynamic>>> usersStream;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> _chatroomsStream;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> _usersStream;
   bool _isLoaded = false;
 
   @override
   void initState() {
     super.initState();
-    chatroomsStream = ChatsDatabase.getChats(AppUser.uid);
-    usersStream = UsersDatabase.getAllUsers(AppUser.uid);
+    _chatroomsStream = ChatsDatabase.getChats(AppUser.uid);
+    _usersStream = UsersDatabase.getAllUsers(AppUser.uid);
     setState(() {
       _isLoaded = true;
     });
@@ -32,19 +32,12 @@ class _ChatroomsState extends State<Chatrooms> {
 
   @override
   Widget build(BuildContext context) {
-    return _isLoaded
-        ? _chatrooms()
-        : const Center(
-            child: CircularProgressIndicator(
-              color: primaryColor,
-              backgroundColor: Colors.white,
-            ),
-          );
+    return _isLoaded ? _chatrooms() : const LoadingIndicator();
   }
 
   Widget _chatrooms() {
     return StreamBuilder(
-      stream: chatroomsStream,
+      stream: _chatroomsStream,
       builder: (
         context,
         AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> chatSnapshot,
@@ -59,7 +52,7 @@ class _ChatroomsState extends State<Chatrooms> {
                     Chatroom chat = Chatroom.fromJson(chatJson);
 
                     return StreamBuilder(
-                      stream: usersStream,
+                      stream: _usersStream,
                       builder: (
                         context,
                         AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
@@ -83,16 +76,7 @@ class _ChatroomsState extends State<Chatrooms> {
                     );
                   },
                 )
-              : const Center(
-                  child: Text(
-                    'Переписок нет',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: darkGrey,
-                    ),
-                  ),
-                );
+              : const MissingText(text: 'Нет активных чатов');
         } else {
           return Container();
         }

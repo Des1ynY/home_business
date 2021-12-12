@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '/ui/home/orders/add_order.dart';
 import '/ui/auth/sign_in.dart';
-import '../ui/home/profile/profile_settings.dart';
+import '/ui/home/profile/profile_settings.dart';
 import '/ui/home/screens.dart';
 import '/ui/auth/success.dart';
 import '/ui/auth/admin.dart';
-import '../ui/auth/sign_up.dart';
+import '/ui/auth/sign_up.dart';
 import '/ui/auth/welcome.dart';
 
 // page routes
@@ -15,6 +16,7 @@ const String signUpRoute = '/signUp';
 const String signInRoute = '/signIn';
 const String successRoute = '/success';
 const String homescreenRoute = '/homescreen';
+const String addOrderRoute = '/addOrder';
 const String userSettingsRoute = '/settings';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -31,6 +33,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => const SuccessLogin());
     case homescreenRoute:
       return MaterialPageRoute(builder: (context) => const HomeScreens());
+    case addOrderRoute:
+      return MaterialPageRoute(builder: (context) => const AddOrder());
     case userSettingsRoute:
       return MaterialPageRoute(builder: (context) => const AppUserSettings());
     default:

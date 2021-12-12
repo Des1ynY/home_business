@@ -61,3 +61,37 @@ class CustomAppBar extends StatelessWidget {
     );
   }
 }
+
+class LoadingIndicator extends StatelessWidget {
+  const LoadingIndicator({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: CircularProgressIndicator(
+        color: primaryColor,
+        backgroundColor: Colors.white,
+      ),
+    );
+  }
+}
+
+class MissingText extends StatelessWidget {
+  const MissingText({required this.text, Key? key}) : super(key: key);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
+          color: darkGrey,
+        ),
+      ),
+    );
+  }
+}

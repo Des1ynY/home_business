@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '/appdata/consts.dart';
+import '/services/router.dart';
+import '/ui/home/orders/user_orders.dart';
+import '/ui/ui_components.dart';
 import '/models/app_user.dart';
 import '/models/neighbour_model.dart';
 import '/models/order_model.dart';
@@ -16,17 +19,15 @@ class HomeServices extends StatefulWidget {
 }
 
 class _HomeServicesState extends State<HomeServices> {
-  late Stream<QuerySnapshot<Map<String, dynamic>>> neighbourOrdersStream;
-  late Stream<QuerySnapshot<Map<String, dynamic>>> yourOrdersStream;
-  late Stream<QuerySnapshot<Map<String, dynamic>>> usersStream;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> _neighbourOrdersStream;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> _yourOrdersStream;
   bool _isLoaded = false;
 
   @override
   void initState() {
     super.initState();
-    neighbourOrdersStream = OrdersDatabase.getAllOrders(AppUser.uid);
-    yourOrdersStream = OrdersDatabase.getUserOrders(AppUser.uid);
-    usersStream = UsersDatabase.getAllUsers(AppUser.uid);
+    _neighbourOrdersStream = OrdersDatabase.getAllOrders(AppUser.uid);
+    _yourOrdersStream = OrdersDatabase.getUserOrders(AppUser.uid);
     setState(() {
       _isLoaded = true;
     });
@@ -36,77 +37,51 @@ class _HomeServicesState extends State<HomeServices> {
   Widget build(BuildContext context) {
     return TabBarView(
       children: [
-        _isLoaded
-            ? _neighbourOrders()
-            : const Center(
-                child: CircularProgressIndicator(
-                  color: primaryColor,
-                  backgroundColor: Colors.white,
+        _isLoaded ? _neighbourOrders() : const LoadingIndicator(),
+        Stack(
+          alignment: Alignment.bottomRight,
+          children: [
+            _isLoaded
+                ? UserOrders(stream: _yourOrdersStream)
+                : const LoadingIndicator(),
+            Positioned(
+              bottom: 15,
+              right: 15,
+              child: Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade100,
+                      blurRadius: 10,
+                      spreadRadius: 5,
+                    ),
+                  ],
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, addOrderRoute);
+                  },
+                  child: const Icon(
+                    Icons.add,
+                    size: 35,
+                    color: primaryColor,
+                  ),
                 ),
               ),
-        _isLoaded
-            ? _yourOrders()
-            : const Center(
-                child: CircularProgressIndicator(
-                  color: primaryColor,
-                  backgroundColor: Colors.white,
-                ),
-              )
+            ),
+          ],
+        ),
       ],
     );
   }
 
   Widget _neighbourOrders() {
     return StreamBuilder(
-      stream: neighbourOrdersStream,
-      builder: (
-        context,
-        AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> orderSnapshot,
-      ) {
-        if (orderSnapshot.hasData) {
-          return orderSnapshot.data!.docs.isNotEmpty
-              ? ListView.builder(
-                  itemCount: orderSnapshot.data!.docs.length,
-                  itemBuilder: (context, index) {
-                    var doc = orderSnapshot.data!.docs.elementAt(index);
-                    Map<String, dynamic> orderJson = doc.data();
-                    Order order = Order.fromJson(orderJson);
-
-                    return StreamBuilder(
-                      stream: usersStream,
-                      builder: (context,
-                          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                              userSnapshot) {
-                        var doc = userSnapshot.data?.docs.firstWhere(
-                            (element) => element['uid'] == order.authorId);
-                        Map<String, dynamic> userJson = doc?.data() ?? {};
-                        Neighbour neighbour = Neighbour.fromJson(userJson);
-
-                        return OrderTile(order: order, author: neighbour);
-                      },
-                    );
-                  },
-                )
-              : const Center(
-                  child: Text(
-                    'Предложений нет',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: darkGrey,
-                    ),
-                  ),
-                );
-        } else {
-          return Container();
-        }
-      },
-    );
-  }
-
-  Widget _yourOrders() {
-    return StreamBuilder(
-      stream: yourOrdersStream,
+      stream: _neighbourOrdersStream,
       builder: (
         context,
         AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
@@ -116,24 +91,31 @@ class _HomeServicesState extends State<HomeServices> {
               ? ListView.builder(
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
-                    var doc = snapshot.data!.docs.elementAt(index);
-                    Map<String, dynamic> json = doc.data();
-                    Order order = Order.fromJson(json);
-                    Neighbour author = Neighbour.fromJson(AppUser.toJson());
+                    var orderDoc = snapshot.data!.docs.elementAt(index);
+                    Map<String, dynamic> orderJson = orderDoc.data();
+                    Order order = Order.fromJson(orderJson);
 
-                    return OrderTile(order: order, author: author);
+                    return StreamBuilder(
+                      stream: UsersDatabase.getUser(order.authorId),
+                      builder: (
+                        context,
+                        AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                            snapshot,
+                      ) {
+                        if (snapshot.hasData) {
+                          var doc = snapshot.data!.docs.first;
+                          Map<String, dynamic> json = doc.data();
+                          Neighbour author = Neighbour.fromJson(json);
+
+                          return OrderTile(order: order, author: author);
+                        } else {
+                          return Container();
+                        }
+                      },
+                    );
                   },
                 )
-              : const Center(
-                  child: Text(
-                    'Не предоставляете услуг',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: darkGrey,
-                    ),
-                  ),
-                );
+              : const MissingText(text: 'Нет предложений');
         } else {
           return Container();
         }

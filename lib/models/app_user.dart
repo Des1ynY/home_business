@@ -19,7 +19,7 @@ class AppUser {
   static String apartment = 'unknown';
   static String imageUrl = 'unknown';
 
-  static void setUser(Map<String, String> data) {
+  static void setUser(Map<String, dynamic> data) {
     uid = data['uid']!;
     name = data['name']!;
     surname = data['surname']!;

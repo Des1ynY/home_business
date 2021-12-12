@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '/appdata/consts.dart';
+import '/ui/ui_components.dart';
 import '/models/app_user.dart';
 import '/models/neighbour_model.dart';
 import '/services/firebase_db.dart';
@@ -15,13 +15,13 @@ class Residents extends StatefulWidget {
 }
 
 class _ResidentsState extends State<Residents> {
-  late Stream<QuerySnapshot<Map<String, dynamic>>> usersStream;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> _usersStream;
   bool _isLoaded = false;
 
   @override
   void initState() {
     super.initState();
-    usersStream = UsersDatabase.getAllUsers(AppUser.uid);
+    _usersStream = UsersDatabase.getAllUsers(AppUser.uid);
     setState(() {
       _isLoaded = true;
     });
@@ -29,19 +29,12 @@ class _ResidentsState extends State<Residents> {
 
   @override
   Widget build(BuildContext context) {
-    return _isLoaded
-        ? _neighbourhoods()
-        : const Center(
-            child: CircularProgressIndicator(
-              color: primaryColor,
-              backgroundColor: Colors.white,
-            ),
-          );
+    return _isLoaded ? _neighbourhoods() : const LoadingIndicator();
   }
 
   Widget _neighbourhoods() {
     return StreamBuilder(
-      stream: usersStream,
+      stream: _usersStream,
       builder: (
         context,
         AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,

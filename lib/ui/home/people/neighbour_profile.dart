@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '/appdata/funcs.dart';
+import '/services/firebase_db.dart';
+import '/ui/home/orders/user_orders.dart';
+import '/ui/ui_components.dart';
 import '/models/neighbour_model.dart';
 import '/appdata/consts.dart';
 
@@ -16,13 +21,18 @@ class NeighbourProfile extends StatefulWidget {
 }
 
 class _NeighbourProfileState extends State<NeighbourProfile> {
-  bool _isFavourite = false;
   final TextEditingController _controller = TextEditingController();
+  late Stream<QuerySnapshot<Map<String, dynamic>>> _neighbourOrdersStream;
+  bool _isFavourite = false, _isLoaded = false;
 
   @override
   void initState() {
     super.initState();
     _controller.text = widget.neighbour.bio;
+    _neighbourOrdersStream = OrdersDatabase.getUserOrders(widget.neighbour.uid);
+    setState(() {
+      _isLoaded = true;
+    });
   }
 
   @override
@@ -111,7 +121,7 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
                       borderRadius: BorderRadius.circular(buttonBorderRadius),
                     ),
                     child: RawMaterialButton(
-                      onPressed: () {},
+                      onPressed: () => enterChatroom(context, widget.neighbour),
                       elevation: 0,
                       child: const Text(
                         'Написать',
@@ -161,30 +171,28 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
   }
 
   Widget _getServicesData(BuildContext context) {
-    List<Widget> orders = [];
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          margin: const EdgeInsets.only(bottom: 10, top: 3),
+          margin: const EdgeInsets.only(bottom: 10),
           child: Text(
             'Услуги',
             style: Theme.of(context).textTheme.headline2,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
-          child: ListView.builder(
-            itemCount: orders.length,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return orders.elementAt(index);
-            },
-          ),
-        )
+        _isLoaded
+            ? UserOrders(
+                stream: _neighbourOrdersStream,
+                shrinkWrap: true,
+                missingWidget: const SizedBox(
+                  height: 200,
+                  child: MissingText(
+                    text: 'Не предоставляет услуг',
+                  ),
+                ),
+              )
+            : const LoadingIndicator(),
       ],
     );
   }

@@ -1,25 +1,24 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '/models/app_user.dart';
+import '/models/message_model.dart';
 import '/appdata/consts.dart';
 import '/appdata/funcs.dart';
 
 class MessageTile extends StatelessWidget {
   const MessageTile({
     required this.message,
-    required this.timeSend,
-    this.isYours = false,
     Key? key,
   }) : super(key: key);
 
-  final Timestamp timeSend;
-  final String message;
-  final bool isYours;
+  final Message message;
 
   @override
   Widget build(BuildContext context) {
+    bool isYours = message.senderId == AppUser.uid;
+
     return Container(
       margin: EdgeInsets.only(
         top: 10,
@@ -38,7 +37,7 @@ class MessageTile extends StatelessWidget {
                 child: GestureDetector(
                   onLongPress: () {
                     Clipboard.setData(
-                      ClipboardData(text: message),
+                      ClipboardData(text: message.content),
                     ).then(
                       (_) => Fluttertoast.showToast(
                         msg: 'Скопировано',
@@ -78,7 +77,7 @@ class MessageTile extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      message,
+                      message.content,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w300,
@@ -98,7 +97,7 @@ class MessageTile extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.only(top: 3),
                 child: Text(
-                  getTimeSend(timeSend),
+                  getTimeSend(message.timeSend),
                   style: const TextStyle(
                     fontSize: 12,
                     color: hintTextColor,

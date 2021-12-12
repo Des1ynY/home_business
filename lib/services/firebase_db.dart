@@ -10,12 +10,16 @@ class UsersDatabase {
     return doc.exists;
   }
 
-  static setUser(String uid, Map<String, String> json) async {
-    await _ref.doc(uid).set(json, SetOptions(merge: true));
+  static getUser(String uid) {
+    return _ref.where('uid', isEqualTo: uid).snapshots();
   }
 
-  static Future<DocumentSnapshot<Object?>> getUser(String uid) async {
-    return _ref.doc(uid).get();
+  static updateUser(String uid, Map<String, dynamic> json) async {
+    await _ref.doc(uid).update(json);
+  }
+
+  static setUser(String uid, Map<String, String> json) async {
+    await _ref.doc(uid).set(json, SetOptions(merge: true));
   }
 
   static getAllUsers(String uid) {
@@ -33,10 +37,20 @@ class ChatsDatabase {
 
   static getChats(String uid) {
     return _ref
-        .where('uid', arrayContains: uid)
-        .orderBy('uid')
+        .where('users', arrayContains: uid)
+        .orderBy('users')
         .orderBy('timeSend', descending: true)
         .snapshots();
+  }
+
+  static checkChat(String uid) async {
+    DocumentSnapshot doc = await _ref.doc(uid).get();
+
+    return doc.exists;
+  }
+
+  static createChat(String uid, Map<String, dynamic> chatInfo) async {
+    await _ref.doc(uid).set(chatInfo);
   }
 
   static deleteChat(String uid) async {
