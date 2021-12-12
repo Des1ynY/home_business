@@ -25,16 +25,6 @@ class _HomeScreensState extends State<HomeScreens> {
     AppBar(
       title: const Text('Соседи'),
       centerTitle: true,
-      actions: [
-        InkWell(
-          onTap: () {},
-          child: const Icon(
-            Icons.search,
-            size: 30,
-            color: primaryColor,
-          ),
-        ),
-      ],
     ),
     AppBar(
       title: const Text('Услуги'),
@@ -56,16 +46,6 @@ class _HomeScreensState extends State<HomeScreens> {
     AppBar(
       title: const Text('Чаты'),
       centerTitle: true,
-      actions: [
-        InkWell(
-          onTap: () {},
-          child: const Icon(
-            Icons.search,
-            size: 30,
-            color: primaryColor,
-          ),
-        ),
-      ],
     ),
     AppBar(
       title: const Text('Профиль'),

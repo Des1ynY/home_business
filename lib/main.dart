@@ -9,12 +9,15 @@ import 'services/firebase_auth.dart';
 import 'services/auth_checker.dart';
 import 'services/shared_prefs.dart';
 import 'models/app_user.dart';
+import 'services/firebase_db.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await DatabaseSettings.initDatabase();
   await LocalDataStorage.init();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   AppUser.setUser(LocalDataStorage.getUserData(AppUser.keys()));
 
   runApp(const HomeBusiness());

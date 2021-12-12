@@ -22,7 +22,6 @@ dependencies:
   liquid_swipe: any
   fluttertoast: any
   flutter_snake_navigationbar: any
-  flutter_slidable: any
   sprintf: any
   shared_preferences: any
 

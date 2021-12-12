@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '/ui/home/orders/full_order.dart';
 import '/models/neighbour_model.dart';
 import '/models/order_model.dart';
 import '/appdata/consts.dart';
@@ -33,7 +34,15 @@ class _OrderTileState extends State<OrderTile> {
         elevation: 10,
         shadowColor: Colors.white70,
         child: RawMaterialButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    FullOrderTile(order: widget.order, author: widget.author),
+              ),
+            );
+          },
           elevation: 0,
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -69,13 +78,16 @@ class _OrderTileState extends State<OrderTile> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 25,
-                  child: Text(
-                    widget.order.title,
-                    style: Theme.of(context).textTheme.headline2,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                Hero(
+                  tag: widget.order.uid,
+                  child: SizedBox(
+                    height: 25,
+                    child: Text(
+                      widget.order.title,
+                      style: Theme.of(context).textTheme.headline2,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
                 Container(
@@ -127,7 +139,7 @@ class _OrderTileState extends State<OrderTile> {
             ),
             child: Center(
               child: Text(
-                '${widget.order.price} руб.',
+                widget.order.price,
                 style: const TextStyle(color: primaryColor),
               ),
             ),

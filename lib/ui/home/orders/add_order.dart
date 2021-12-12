@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '/appdata/consts.dart';
 import '/appdata/funcs.dart';
 import '/services/firebase_db.dart';
 import '/models/app_user.dart';
@@ -267,15 +266,7 @@ class __OrderPropertiesState extends State<_OrderProperties> {
                   onFieldSubmitted: (_) {
                     setState(() {
                       _tags.add(_tag.text.trim());
-                      _tagTiles.add(TagTile(
-                        tag: _tag.text.trim(),
-                        action: () {
-                          setState(() {
-                            _tags.remove(_tag.text.trim());
-                            _tagTiles.remove(_tag.text.trim());
-                          });
-                        },
-                      ));
+                      _tagTiles.add(TagTile(tag: _tag.text.trim()));
                       _tag.text = '';
                     });
                     FocusScope.of(context).requestFocus(_tagField);
@@ -289,7 +280,7 @@ class __OrderPropertiesState extends State<_OrderProperties> {
           margin: const EdgeInsets.only(bottom: 35),
           child: Wrap(
             spacing: 7,
-            runSpacing: 5,
+            runSpacing: 10,
             children: _tagTiles.toList(),
           ),
         ),
@@ -315,47 +306,5 @@ class __OrderPropertiesState extends State<_OrderProperties> {
       await OrdersDatabase.createOrder(_orderInfo['uid'], _orderInfo);
       Navigator.pop(context);
     }
-  }
-}
-
-class TagTile extends StatelessWidget {
-  const TagTile({
-    required this.tag,
-    this.action,
-    Key? key,
-  }) : super(key: key);
-
-  final String tag;
-  final Function? action;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => action!(),
-      child: Container(
-        height: 30,
-        padding: const EdgeInsets.only(
-          top: 3,
-          bottom: 5,
-          left: 7,
-          right: 7,
-        ),
-        margin: const EdgeInsets.only(bottom: 5),
-        decoration: BoxDecoration(
-          color: borderColor,
-          border: const Border.fromBorderSide(
-            BorderSide(color: hintTextColor),
-          ),
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(tag),
-          ],
-        ),
-      ),
-    );
   }
 }

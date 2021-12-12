@@ -7,6 +7,7 @@ const Color textColor = Color(0xFF313131);
 const Color hintTextColor = Color(0xFFC6C6C6);
 const Color borderColor = Color(0xFFEDEDED);
 const Color darkGrey = Color(0x66707070);
+const Color red = Color(0xFFF96060);
 
 // buttons
 const double buttonHeight = 48;

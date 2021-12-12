@@ -19,16 +19,18 @@ class AppUserProfile extends StatefulWidget {
 
 class _AppUserProfileState extends State<AppUserProfile> {
   late Stream<QuerySnapshot<Map<String, dynamic>>> _yourOrdersStream;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> _profileStream;
   final TextEditingController _controller = TextEditingController();
-  bool _isLoading = false;
+  bool _isLoaded = false;
 
   @override
   void initState() {
     super.initState();
     _controller.text = AppUser.bio;
+    _profileStream = UsersDatabase.getUser(AppUser.uid);
     _yourOrdersStream = OrdersDatabase.getUserOrders(AppUser.uid);
     setState(() {
-      _isLoading = true;
+      _isLoaded = true;
     });
   }
 
@@ -38,12 +40,36 @@ class _AppUserProfileState extends State<AppUserProfile> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _getProfileData(context),
-          const Divider(color: darkGrey, indent: 20, endIndent: 20),
-          _getServicesData(context),
-        ],
+        children: _isLoaded
+            ? [
+                _profile(),
+                const Divider(color: darkGrey, indent: 20, endIndent: 20),
+                _getServicesData(context),
+              ]
+            : const [
+                LoadingIndicator(),
+              ],
       ),
+    );
+  }
+
+  Widget _profile() {
+    return StreamBuilder(
+      stream: _profileStream,
+      builder: (
+        context,
+        AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
+      ) {
+        if (snapshot.hasData) {
+          var doc = snapshot.data!.docs.first;
+          Map<String, dynamic> json = doc.data();
+          AppUser.setUser(json);
+
+          return _getProfileData(context);
+        } else {
+          return Container();
+        }
+      },
     );
   }
 
@@ -100,34 +126,27 @@ class _AppUserProfileState extends State<AppUserProfile> {
           ),
           Container(
             margin: const EdgeInsets.only(top: 10, bottom: 10),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    height: buttonHeight,
-                    decoration: BoxDecoration(
-                      border: const Border.fromBorderSide(
-                        BorderSide(color: darkGrey),
-                      ),
-                      borderRadius: BorderRadius.circular(buttonBorderRadius),
-                    ),
-                    child: RawMaterialButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, userSettingsRoute);
-                      },
-                      elevation: 0,
-                      child: const Text(
-                        'Настроить профиль',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: primaryColor,
-                        ),
-                      ),
-                    ),
-                  ),
+            width: MediaQuery.of(context).size.width,
+            height: buttonHeight,
+            decoration: BoxDecoration(
+              border: const Border.fromBorderSide(
+                BorderSide(color: darkGrey),
+              ),
+              borderRadius: BorderRadius.circular(buttonBorderRadius),
+            ),
+            child: RawMaterialButton(
+              onPressed: () {
+                Navigator.pushNamed(context, userSettingsRoute);
+              },
+              elevation: 0,
+              child: const Text(
+                'Настроить профиль',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: primaryColor,
                 ),
-              ],
+              ),
             ),
           ),
         ],
@@ -146,7 +165,7 @@ class _AppUserProfileState extends State<AppUserProfile> {
             style: Theme.of(context).textTheme.headline2,
           ),
         ),
-        _isLoading
+        _isLoaded
             ? UserOrders(
                 stream: _yourOrdersStream,
                 shrinkWrap: true,
