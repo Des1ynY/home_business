@@ -31,20 +31,16 @@ class _FullOrderTileState extends State<FullOrderTile> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
+        child: Padding(
           padding: defaultPadding,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Hero(
-                tag: widget.order.uid,
-                child: Text(
-                  widget.order.title,
-                  style: Theme.of(context).textTheme.headline1,
-                ),
+              Text(
+                widget.order.title,
+                style: Theme.of(context).textTheme.headline1,
               ),
               Text(
                 widget.order.price,
@@ -53,9 +49,9 @@ class _FullOrderTileState extends State<FullOrderTile> {
                   color: primaryColor,
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.only(bottom: 30, top: 25),
-                child: Flexible(
+              Flexible(
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 30, top: 25),
                   child: Text(
                     widget.order.description,
                     style: const TextStyle(fontSize: 18, height: 1.5),

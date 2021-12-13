@@ -78,16 +78,13 @@ class _OrderTileState extends State<OrderTile> {
                     ],
                   ),
                 ),
-                Hero(
-                  tag: widget.order.uid,
-                  child: SizedBox(
-                    height: 25,
-                    child: Text(
-                      widget.order.title,
-                      style: Theme.of(context).textTheme.headline2,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                SizedBox(
+                  height: 25,
+                  child: Text(
+                    widget.order.title,
+                    style: Theme.of(context).textTheme.headline2,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 Container(

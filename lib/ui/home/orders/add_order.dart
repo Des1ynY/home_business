@@ -22,7 +22,7 @@ class _AddOrderState extends State<AddOrder> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Новая услуга'),
+        title: const Text('Новое предложение'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -285,7 +285,7 @@ class __OrderPropertiesState extends State<_OrderProperties> {
           ),
         ),
         CustomButton(
-          label: 'Создать услугу',
+          label: 'Опубликовать',
           action: () => _submit(),
         ),
       ],

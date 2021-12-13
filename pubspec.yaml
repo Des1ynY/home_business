@@ -18,7 +18,6 @@ dependencies:
   firebase_core: any
   firebase_auth: any
   cloud_firestore: any
-  firebase_storage: any
   liquid_swipe: any
   fluttertoast: any
   flutter_snake_navigationbar: any
