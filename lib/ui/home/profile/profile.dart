@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:home_business/models/neighbour_model.dart';
 
 import '/services/firebase_db.dart';
 import '/ui/home/orders/user_orders.dart';
@@ -144,6 +145,7 @@ class _AppUserProfileState extends State<AppUserProfile> {
         _isLoaded
             ? UserOrders(
                 stream: _yourOrdersStream,
+                author: Neighbour.fromJson(AppUser.toJson()),
                 shrinkWrap: true,
                 missingWidget: const SizedBox(
                   height: 200,

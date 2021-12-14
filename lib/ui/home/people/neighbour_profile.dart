@@ -184,6 +184,7 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
         _isLoaded
             ? UserOrders(
                 stream: _neighbourOrdersStream,
+                author: widget.neighbour,
                 shrinkWrap: true,
                 missingWidget: const SizedBox(
                   height: 200,

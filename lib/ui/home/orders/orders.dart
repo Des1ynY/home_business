@@ -42,7 +42,10 @@ class _HomeServicesState extends State<HomeServices> {
           alignment: Alignment.bottomRight,
           children: [
             _isLoaded
-                ? UserOrders(stream: _yourOrdersStream)
+                ? UserOrders(
+                    stream: _yourOrdersStream,
+                    author: Neighbour.fromJson(AppUser.toJson()),
+                  )
                 : const LoadingIndicator(),
             Positioned(
               bottom: 15,

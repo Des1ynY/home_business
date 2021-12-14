@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '/ui/ui_components.dart';
-import '/models/app_user.dart';
 import '/models/neighbour_model.dart';
 import '/models/order_model.dart';
 import '/ui/home/orders/order_tile.dart';
@@ -10,12 +9,14 @@ import '/ui/home/orders/order_tile.dart';
 class UserOrders extends StatelessWidget {
   const UserOrders({
     required this.stream,
+    required this.author,
     this.shrinkWrap = false,
     this.missingWidget,
     Key? key,
   }) : super(key: key);
 
   final Stream<QuerySnapshot<Map<String, dynamic>>> stream;
+  final Neighbour author;
   final bool shrinkWrap;
   final Widget? missingWidget;
 
@@ -38,7 +39,6 @@ class UserOrders extends StatelessWidget {
                     var doc = snapshot.data!.docs.elementAt(index);
                     Map<String, dynamic> json = doc.data();
                     Order order = Order.fromJson(json);
-                    Neighbour author = Neighbour.fromJson(AppUser.toJson());
 
                     return OrderTile(order: order, author: author);
                   },
