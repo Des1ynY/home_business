@@ -19,7 +19,6 @@ class AppUserProfile extends StatefulWidget {
 
 class _AppUserProfileState extends State<AppUserProfile> {
   late Stream<QuerySnapshot<Map<String, dynamic>>> _yourOrdersStream;
-  late Stream<QuerySnapshot<Map<String, dynamic>>> _profileStream;
   final TextEditingController _controller = TextEditingController();
   bool _isLoaded = false;
 
@@ -27,7 +26,6 @@ class _AppUserProfileState extends State<AppUserProfile> {
   void initState() {
     super.initState();
     _controller.text = AppUser.bio;
-    _profileStream = UsersDatabase.getUser(AppUser.uid);
     _yourOrdersStream = OrdersDatabase.getUserOrders(AppUser.uid);
     setState(() {
       _isLoaded = true;
@@ -37,39 +35,17 @@ class _AppUserProfileState extends State<AppUserProfile> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: _isLoaded
-            ? [
-                _profile(),
+      child: _isLoaded
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _getProfileData(context),
                 const Divider(color: darkGrey, indent: 20, endIndent: 20),
                 _getServicesData(context),
-              ]
-            : const [
-                LoadingIndicator(),
               ],
-      ),
-    );
-  }
-
-  Widget _profile() {
-    return StreamBuilder(
-      stream: _profileStream,
-      builder: (
-        context,
-        AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
-      ) {
-        if (snapshot.hasData) {
-          var doc = snapshot.data!.docs.first;
-          Map<String, dynamic> json = doc.data();
-          AppUser.setUser(json);
-
-          return _getProfileData(context);
-        } else {
-          return Container();
-        }
-      },
+            )
+          : const LoadingIndicator(),
     );
   }
 

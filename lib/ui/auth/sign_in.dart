@@ -185,11 +185,7 @@ class _SignInState extends State<SignIn> {
       await Auth.auth.verifyPhoneNumber(
         phoneNumber: makePhoneValid(_phone),
         timeout: const Duration(seconds: 60),
-        verificationCompleted: (phoneAuthCredential) async {
-          await _verificationCompleted(phoneAuthCredential);
-          Navigator.pushNamedAndRemoveUntil(
-              context, homescreenRoute, (route) => false);
-        },
+        verificationCompleted: _verificationCompleted,
         verificationFailed: (verificationFailed) async {
           setState(() {
             _isLoading = false;
@@ -219,8 +215,6 @@ class _SignInState extends State<SignIn> {
     );
 
     await _verificationCompleted(phoneAuthCredential);
-    Navigator.pushNamedAndRemoveUntil(
-        context, homescreenRoute, (route) => false);
   }
 
   _verificationCompleted(phoneAuthCredential) async {
@@ -246,6 +240,8 @@ class _SignInState extends State<SignIn> {
           }
         },
       );
+      Navigator.pushNamedAndRemoveUntil(
+          context, homescreenRoute, (route) => false);
     } else {
       setState(() {
         _otp = '';
