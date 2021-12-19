@@ -4,9 +4,9 @@
 
 **Название команды:** Code Monkeys
 
-**Формат системы:** Android-приложение и веб-сайт (панель администратора)
+**Формат системы:** Android-приложение
 
-**Стек технологий:** Dart, Flutter, Firebase Cloud Storage, Firebase Cloud Database, Firebase Authentication, HTML, CSS, JavaScript
+**Стек технологий:** Flutter, Firebase Firestore, Firebase Auth
 
 **Основные требования к ПО для использования:**
 
