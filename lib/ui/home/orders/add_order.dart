@@ -297,7 +297,7 @@ class __OrderPropertiesState extends State<_OrderProperties> {
 
     if (formIsValid) {
       _orderInfo['price'] = _priceFrom.text.trim() == _priceTo.text.trim()
-          ? _priceFrom.text.trim()
+          ? '${_priceFrom.text.trim()} руб.'
           : "${_priceFrom.text.trim()} - ${_priceTo.text.trim()} руб.";
       _orderInfo['tags'] = _tags.toList();
       _orderInfo['uid'] = getUID();

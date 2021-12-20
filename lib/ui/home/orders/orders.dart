@@ -92,6 +92,7 @@ class _HomeServicesState extends State<HomeServices> {
         if (snapshot.hasData) {
           return snapshot.data!.docs.isNotEmpty
               ? ListView.builder(
+                  addAutomaticKeepAlives: true,
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
                     var orderDoc = snapshot.data!.docs.elementAt(index);
