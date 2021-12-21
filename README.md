@@ -10,9 +10,11 @@
 
 **Формат системы:** Android-приложение
 
-**Стек технологий:** Dart, Flutter, Firebase Firestore, Firebase Auth
+**Стек технологий:** Flutter + Firebase
 
 **Основные требования к ПО для использования:**
 
 1. Android-устройство с версей Android новее Marshmallow (23);
 2. Возможность выхода в Интернет;
+
+*Apk-файл приложения находится в папке Application репозитория*
