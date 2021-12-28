@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:home_business/appdata/theme.dart';
 
 import '/models/app_user.dart';
 import '/models/message_model.dart';
-import '/appdata/consts.dart';
 import '/appdata/funcs.dart';
 
 class MessageTile extends StatelessWidget {
@@ -56,8 +56,8 @@ class MessageTile extends StatelessWidget {
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                primaryColor,
-                                primaryColor.withOpacity(0.8),
+                                CustomTheme.primaryColor,
+                                CustomTheme.primaryColor.withOpacity(0.8),
                                 const Color(0xFF63C6E0),
                               ],
                             )
@@ -82,7 +82,7 @@ class MessageTile extends StatelessWidget {
                         fontSize: 15,
                         fontWeight: FontWeight.w300,
                         fontFamily: 'Roboto',
-                        color: isYours ? Colors.white : textColor,
+                        color: isYours ? Colors.white : CustomTheme.textColor,
                       ),
                     ),
                   ),
@@ -100,7 +100,7 @@ class MessageTile extends StatelessWidget {
                   getTimeSend(message.timeSend),
                   style: const TextStyle(
                     fontSize: 12,
-                    color: hintTextColor,
+                    color: CustomTheme.hintTextColor,
                   ),
                 ),
               ),

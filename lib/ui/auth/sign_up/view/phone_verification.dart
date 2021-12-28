@@ -1,13 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
-import '/services/firebase_db.dart';
-import '/models/app_user.dart';
-import '/services/firebase_auth.dart';
-import '/appdata/consts.dart';
-import '/appdata/funcs.dart';
-import '/services/router.dart';
+part of 'sign_up.dart';
 
 class PhoneVerification extends StatefulWidget {
   const PhoneVerification({Key? key}) : super(key: key);
@@ -91,7 +82,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w300,
-                            color: textColor,
+                            color: CustomTheme.textColor,
                           ),
                           keyboardType: TextInputType.number,
                           maxLength: 6,
@@ -122,7 +113,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.normal,
-                                    color: textColor,
+                                    color: CustomTheme.textColor,
                                   ),
                                 ),
                               ),
@@ -134,29 +125,22 @@ class _PhoneVerificationState extends State<PhoneVerification> {
               ],
             ),
           ),
-          Container(
-            height: buttonHeight,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: primaryColor,
-              borderRadius: BorderRadius.circular(buttonBorderRadius),
-            ),
-            child: RawMaterialButton(
-              onPressed: () => _otpSend ? _login() : _sendOTP(),
-              elevation: 0,
-              child: !_isLoading
-                  ? Text(
-                      _otpSend ? 'Подтвердить' : 'Продолжить',
-                      style: Theme.of(context).textTheme.button,
-                    )
-                  : const Center(
-                      child: CircularProgressIndicator(
-                        color: primaryColor,
-                        backgroundColor: Colors.white,
-                        strokeWidth: 2,
-                      ),
+          MaterialButton(
+            onPressed: () => _otpSend ? _login() : _sendOTP(),
+            elevation: 0,
+            hoverElevation: 0,
+            child: !_isLoading
+                ? Text(
+                    _otpSend ? 'Подтвердить' : 'Продолжить',
+                    style: Theme.of(context).textTheme.button,
+                  )
+                : const Center(
+                    child: CircularProgressIndicator(
+                      color: CustomTheme.primaryColor,
+                      backgroundColor: Colors.white,
+                      strokeWidth: 2,
                     ),
-            ),
+                  ),
           ),
         ],
       ),
@@ -217,8 +201,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
       AppUser.uid = user.uid;
 
       await UsersDatabase.setUser(AppUser.uid, AppUser.toJson());
-      Navigator.pushNamedAndRemoveUntil(
-          context, successRoute, (route) => false);
+      Get.offNamedUntil(successRoute, (route) => false);
     } else {
       setState(() {
         _otpSend = false;

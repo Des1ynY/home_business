@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:home_business/ui/components/loading_indicator.dart';
 
-import '/ui/ui_components.dart';
 import '/models/app_user.dart';
 import '/models/neighbour_model.dart';
 import '/services/firebase_db.dart';

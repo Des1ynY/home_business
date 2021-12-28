@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:home_business/appdata/routes.dart';
+import 'package:home_business/appdata/theme.dart';
+import 'package:home_business/ui/components/loading_indicator.dart';
+import 'package:home_business/ui/components/missing_text.dart';
 
-import '/appdata/consts.dart';
-import '/services/router.dart';
 import '/ui/home/orders/user_orders.dart';
-import '/ui/ui_components.dart';
 import '/models/app_user.dart';
 import '/models/neighbour_model.dart';
 import '/models/order_model.dart';
@@ -65,13 +67,11 @@ class _HomeServicesState extends State<HomeServices> {
                   ],
                 ),
                 child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, addOrderRoute);
-                  },
+                  onTap: () => Get.toNamed(addOrderRoute),
                   child: const Icon(
                     Icons.add,
                     size: 35,
-                    color: primaryColor,
+                    color: CustomTheme.primaryColor,
                   ),
                 ),
               ),

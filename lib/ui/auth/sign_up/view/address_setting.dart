@@ -1,11 +1,4 @@
-import 'package:flutter/material.dart';
-
-import '/ui/ui_components.dart';
-import '/services/router.dart';
-import 'sign_up.dart';
-import '/appdata/funcs.dart';
-import '/models/app_user.dart';
-import '/appdata/consts.dart';
+part of 'sign_up.dart';
 
 class AddressSettings extends StatefulWidget {
   const AddressSettings({Key? key}) : super(key: key);
@@ -66,7 +59,7 @@ class _AddressSettingsState extends State<AddressSettings> {
                       hintText: 'Москва',
                     ),
                     textCapitalization: TextCapitalization.words,
-                    cursorColor: primaryColor,
+                    cursorColor: CustomTheme.primaryColor,
                     keyboardType: TextInputType.text,
                     onChanged: (value) => _city = value,
                     validator: (value) =>
@@ -195,9 +188,7 @@ class _AddressSettingsState extends State<AddressSettings> {
           ),
           Center(
             child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, signInRoute);
-              },
+              onTap: () => Get.toNamed(signInRoute),
               behavior: HitTestBehavior.translucent,
               child: const SizedBox(
                 height: 30,
@@ -206,7 +197,7 @@ class _AddressSettingsState extends State<AddressSettings> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
-                    color: textColor,
+                    color: CustomTheme.textColor,
                   ),
                 ),
               ),

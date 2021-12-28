@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-
-import '/ui/ui_components.dart';
-import 'sign_up.dart';
-import '/models/app_user.dart';
-import '/appdata/consts.dart';
+part of 'sign_up.dart';
 
 class UserSettings extends StatefulWidget {
   const UserSettings({Key? key}) : super(key: key);
@@ -101,7 +96,7 @@ class _UserSettingsState extends State<UserSettings> {
                       child: const Text(
                         'опционально',
                         style: TextStyle(
-                          color: hintTextColor,
+                          color: CustomTheme.hintTextColor,
                           fontSize: 12,
                           fontWeight: FontWeight.w200,
                         ),

@@ -2,12 +2,16 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:sprintf/sprintf.dart';
 
 import '/models/app_user.dart';
 import '/models/neighbour_model.dart';
 import '/services/firebase_db.dart';
 import '/ui/home/chat/chat.dart';
-import 'package:sprintf/sprintf.dart';
+
+const EdgeInsetsGeometry defaultPadding = EdgeInsets.all(20);
+const EdgeInsetsGeometry paddingWithAppbar =
+    EdgeInsets.only(right: 20, left: 20, bottom: 40);
 
 double getScaffoldHeight(BuildContext context) {
   return MediaQuery.of(context).size.height -

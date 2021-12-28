@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
-
-import '/appdata/consts.dart';
+import 'package:get/get.dart';
 
 class CustomTheme {
+  static const Color primaryColor = Color(0xFF37ACA2);
+  static const Color backgroundColor = Color(0xFFFFFFFF);
+  static const Color shadowColor = Colors.white70;
+  static const Color textColor = Color(0xFF313131);
+  static const Color hintTextColor = Color(0xFFC6C6C6);
+  static const Color borderColor = Color(0xFFEDEDED);
+  static const Color darkGrey = Color(0x66707070);
+  static const Color red = Color(0xFFF96060);
+  static const Color blue = Color(0xFF6074F9);
+
   static ThemeData mainTheme = ThemeData(
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: backgroundColor,
     primaryColor: primaryColor,
     fontFamily: 'AvenirNextCyr',
     textTheme: const TextTheme(
       headline1: TextStyle(
         fontSize: 32,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w700,
         color: textColor,
       ),
       headline2: TextStyle(
@@ -18,7 +27,7 @@ class CustomTheme {
         fontWeight: FontWeight.w500,
         color: textColor,
       ),
-      headline3: TextStyle(
+      subtitle1: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w300,
         color: textColor,
@@ -36,7 +45,15 @@ class CustomTheme {
       button: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w700,
-        color: Colors.white,
+        color: backgroundColor,
+      ),
+    ),
+    buttonTheme: ButtonThemeData(
+      height: 50,
+      minWidth: Get.width,
+      buttonColor: primaryColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5),
       ),
     ),
     inputDecorationTheme: const InputDecorationTheme(
@@ -57,9 +74,9 @@ class CustomTheme {
       cursorColor: primaryColor,
     ),
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
       foregroundColor: primaryColor,
-      shadowColor: Colors.white70,
+      shadowColor: shadowColor,
       elevation: 2,
     ),
   );

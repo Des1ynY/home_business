@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:home_business/ui/components/tag_tile.dart';
 
+import '/appdata/theme.dart';
 import '/services/firebase_db.dart';
 import '/models/app_user.dart';
 import '/appdata/funcs.dart';
-import '/ui/ui_components.dart';
-import '/appdata/consts.dart';
 import '/models/neighbour_model.dart';
 import '/models/order_model.dart';
 
@@ -46,7 +46,7 @@ class _FullOrderTileState extends State<FullOrderTile> {
                 widget.order.price,
                 style: const TextStyle(
                   fontSize: 20,
-                  color: primaryColor,
+                  color: CustomTheme.primaryColor,
                 ),
               ),
               Flexible(
@@ -61,7 +61,7 @@ class _FullOrderTileState extends State<FullOrderTile> {
               widget.author.uid == AppUser.uid
                   ? _getButton(
                       'Удалить предложение',
-                      red,
+                      CustomTheme.red,
                       () async {
                         await OrdersDatabase.deleteOrder(widget.order.uid);
                         Navigator.pop(context);
@@ -69,7 +69,7 @@ class _FullOrderTileState extends State<FullOrderTile> {
                     )
                   : _getButton(
                       'Написать продавцу',
-                      primaryColor,
+                      CustomTheme.primaryColor,
                       () {
                         enterChatroom(context, widget.author);
                       },
@@ -96,7 +96,7 @@ class _FullOrderTileState extends State<FullOrderTile> {
                       'Автор:',
                       style: TextStyle(
                         fontSize: 16,
-                        color: darkGrey,
+                        color: CustomTheme.darkGrey,
                       ),
                     ),
                   ),
@@ -133,20 +133,14 @@ class _FullOrderTileState extends State<FullOrderTile> {
   }
 
   Widget _getButton(String label, Color color, Function action) {
-    return Container(
-      height: buttonHeight,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(buttonBorderRadius),
-      ),
-      child: RawMaterialButton(
-        onPressed: () => action(),
-        elevation: 0,
-        child: Text(
-          label,
-          style: Theme.of(context).textTheme.button,
-        ),
+    return MaterialButton(
+      onPressed: () => action(),
+      color: color,
+      elevation: 0,
+      hoverElevation: 0,
+      child: Text(
+        label,
+        style: Theme.of(context).textTheme.button,
       ),
     );
   }

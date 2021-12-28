@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:home_business/appdata/theme.dart';
 
 import '/services/firebase_db.dart';
 import '/appdata/funcs.dart';
 import '/models/app_user.dart';
 import '/models/chat_model.dart';
 import '/models/neighbour_model.dart';
-import '/appdata/consts.dart';
 
 class ChatroomTile extends StatefulWidget {
   const ChatroomTile({
@@ -48,7 +48,7 @@ class _ChatroomTileState extends State<ChatroomTile> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.normal,
-                      color: red,
+                      color: CustomTheme.red,
                     ),
                   ),
                 ),
@@ -99,7 +99,7 @@ class _ChatroomTileState extends State<ChatroomTile> {
                         getTimeSend(widget.chatInfo.timeSend),
                         style: const TextStyle(
                           fontSize: 12,
-                          color: hintTextColor,
+                          color: CustomTheme.hintTextColor,
                         ),
                       ),
                     ],
@@ -118,7 +118,7 @@ class _ChatroomTileState extends State<ChatroomTile> {
                                     text: 'Вы: ',
                                     style: const TextStyle(
                                       fontFamily: 'AvenirNextCyr',
-                                      color: primaryColor,
+                                      color: CustomTheme.primaryColor,
                                     ),
                                     children: [
                                       TextSpan(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:home_business/appdata/theme.dart';
 
 import '/ui/home/people/neighbour_profile.dart';
 import '/models/neighbour_model.dart';
-import '/appdata/consts.dart';
 
 class NeigbourProfileTile extends StatefulWidget {
   const NeigbourProfileTile({
@@ -76,7 +76,7 @@ class _NeigbourProfileTileState extends State<NeigbourProfileTile> {
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w300,
-                          color: hintTextColor,
+                          color: CustomTheme.hintTextColor,
                         ),
                       ),
                     ],
@@ -94,14 +94,14 @@ class _NeigbourProfileTileState extends State<NeigbourProfileTile> {
                                 text: 'О себе: ',
                                 style: const TextStyle(
                                   fontFamily: 'AvenirNextCyr',
-                                  color: primaryColor,
+                                  color: CustomTheme.primaryColor,
                                 ),
                                 children: [
                                   TextSpan(
                                     text: widget.neighbour.bio,
                                     style: const TextStyle(
                                       fontFamily: 'AvenirNextCyr',
-                                      color: textColor,
+                                      color: CustomTheme.textColor,
                                     ),
                                   ),
                                 ],

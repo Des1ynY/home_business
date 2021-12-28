@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '/models/app_user.dart';
 import '/services/firebase_db.dart';
-import '/ui/auth/welcome.dart';
+import '../ui/auth/welcome/welcome.dart';
 import '/ui/home/screens.dart';
 
 class AuthChecker extends StatelessWidget {
@@ -34,7 +34,7 @@ class AuthChecker extends StatelessWidget {
         },
       );
     } else {
-      return const Welcome();
+      return Welcome();
     }
   }
 }

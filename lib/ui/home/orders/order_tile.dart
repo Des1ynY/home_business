@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:home_business/appdata/theme.dart';
 
 import '/ui/home/orders/full_order.dart';
 import '/models/neighbour_model.dart';
 import '/models/order_model.dart';
-import '/appdata/consts.dart';
 
 class OrderTile extends StatefulWidget {
   const OrderTile({
@@ -128,16 +128,16 @@ class _OrderTileState extends State<OrderTile> {
             ),
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
-              color: primaryColor.withOpacity(0.3),
+              color: CustomTheme.primaryColor.withOpacity(0.3),
               border: const Border.fromBorderSide(
-                BorderSide(color: primaryColor),
+                BorderSide(color: CustomTheme.primaryColor),
               ),
               borderRadius: BorderRadius.circular(5),
             ),
             child: Center(
               child: Text(
                 widget.order.price,
-                style: const TextStyle(color: primaryColor),
+                style: const TextStyle(color: CustomTheme.primaryColor),
               ),
             ),
           )
@@ -151,9 +151,9 @@ class _OrderTileState extends State<OrderTile> {
             ),
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
-              color: borderColor,
+              color: CustomTheme.borderColor,
               border: const Border.fromBorderSide(
-                BorderSide(color: hintTextColor),
+                BorderSide(color: CustomTheme.hintTextColor),
               ),
               borderRadius: BorderRadius.circular(5),
             ),

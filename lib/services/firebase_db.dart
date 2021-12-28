@@ -1,12 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class DatabaseSettings {
-  static initDatabase() async {
-    FirebaseFirestore.instance.settings =
-        const Settings(persistenceEnabled: false);
-  }
-}
-
 class UsersDatabase {
   static final CollectionReference _ref =
       FirebaseFirestore.instance.collection('users');

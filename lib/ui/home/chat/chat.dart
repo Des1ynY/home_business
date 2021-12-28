@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:home_business/appdata/theme.dart';
+import 'package:home_business/ui/components/loading_indicator.dart';
+import 'package:home_business/ui/components/missing_text.dart';
 
 import '/appdata/funcs.dart';
 import '/models/app_user.dart';
 import '/models/message_model.dart';
 import '/ui/home/chat/message_tile.dart';
 import '/services/firebase_db.dart';
-import '/ui/ui_components.dart';
 import '/models/neighbour_model.dart';
 import '/ui/home/people/neighbour_profile.dart';
-import '/appdata/consts.dart';
 
 class Chat extends StatefulWidget {
   const Chat({
@@ -75,7 +76,7 @@ class _ChatState extends State<Chat> {
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                     fontFamily: 'Roboto',
-                    color: textColor,
+                    color: CustomTheme.textColor,
                   ),
                 ),
               ),
@@ -139,12 +140,17 @@ class _ChatState extends State<Chat> {
               decoration: InputDecoration(
                 hintText: 'Пиши...',
                 border: OutlineInputBorder(
-                  borderSide:
-                      const BorderSide(color: hintTextColor, width: 1.5),
+                  borderSide: const BorderSide(
+                    color: CustomTheme.hintTextColor,
+                    width: 1.5,
+                  ),
                   borderRadius: BorderRadius.circular(40),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: primaryColor, width: 1.5),
+                  borderSide: const BorderSide(
+                    color: CustomTheme.primaryColor,
+                    width: 1.5,
+                  ),
                   borderRadius: BorderRadius.circular(25),
                 ),
                 contentPadding:
@@ -170,7 +176,7 @@ class _ChatState extends State<Chat> {
               child: const Icon(
                 Icons.send_rounded,
                 size: 30,
-                color: primaryColor,
+                color: CustomTheme.primaryColor,
               ),
             ),
           ),

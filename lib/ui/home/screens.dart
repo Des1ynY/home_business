@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
+import 'package:home_business/appdata/theme.dart';
 
-import '/appdata/consts.dart';
 import '/ui/home/chat/chatrooms.dart';
 import '/ui/home/orders/orders.dart';
 import '/ui/home/people/neighbourhoods.dart';
@@ -30,9 +30,9 @@ class _HomeScreensState extends State<HomeScreens> {
       title: const Text('Услуги'),
       centerTitle: true,
       bottom: const TabBar(
-        indicatorColor: primaryColor,
-        labelColor: primaryColor,
-        unselectedLabelColor: hintTextColor,
+        indicatorColor: CustomTheme.primaryColor,
+        labelColor: CustomTheme.primaryColor,
+        unselectedLabelColor: CustomTheme.hintTextColor,
         labelStyle: TextStyle(
           fontFamily: 'AvenirNextCyr',
           fontSize: 16,
@@ -66,10 +66,10 @@ class _HomeScreensState extends State<HomeScreens> {
           elevation: 20,
           behaviour: SnakeBarBehaviour.floating,
           snakeShape: SnakeShape.indicator,
-          snakeViewColor: primaryColor,
+          snakeViewColor: CustomTheme.primaryColor,
           currentIndex: _currentIndex,
-          selectedItemColor: primaryColor,
-          unselectedItemColor: hintTextColor,
+          selectedItemColor: CustomTheme.primaryColor,
+          unselectedItemColor: CustomTheme.hintTextColor,
           showSelectedLabels: true,
           onTap: (index) => setState(() {
             _currentIndex = index;

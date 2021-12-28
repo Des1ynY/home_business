@@ -28,7 +28,7 @@ dev_dependencies:
 
 flutter_native_splash:
   color: "#ffffff"
-  image: assets/logo.png
+  image: assets/img/logo.png
   android: true
 
 
@@ -43,11 +43,15 @@ flutter:
     - family: AvenirNextCyr
       fonts:
         - asset: assets/fonts/AvenirNextCyr-Regular.ttf
+
         - asset: assets/fonts/AvenirNextCyr-Bold.ttf
-        - weight: 700
-        - asset: assets/fonts/AvenirNextCyr-Light.ttf
-        - weight: 300
+          weight: 700
+        
         - asset: assets/fonts/AvenirNextCyr-Medium.ttf
-        - weight: 500
+          weight: 500
+        
+        - asset: assets/fonts/AvenirNextCyr-Light.ttf
+          weight: 300
+
         - asset: assets/fonts/AvenirNextCyr-UltraLight.ttf
-        - weight: 200
+          weight: 200

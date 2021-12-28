@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:home_business/appdata/theme.dart';
+import 'package:home_business/ui/components/loading_indicator.dart';
+import 'package:home_business/ui/components/missing_text.dart';
 
 import '/appdata/funcs.dart';
 import '/services/firebase_db.dart';
 import '/ui/home/orders/user_orders.dart';
-import '/ui/ui_components.dart';
 import '/models/neighbour_model.dart';
-import '/appdata/consts.dart';
 
 class NeighbourProfile extends StatefulWidget {
   const NeighbourProfile({
@@ -48,7 +49,11 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _getProfileData(context),
-            const Divider(color: darkGrey, indent: 40, endIndent: 40),
+            const Divider(
+              color: CustomTheme.darkGrey,
+              indent: 40,
+              endIndent: 40,
+            ),
             _getServicesData(context),
           ],
         ),
@@ -82,7 +87,7 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
           ),
           Text(
             'кв. ${widget.neighbour.apartment}',
-            style: const TextStyle(color: darkGrey),
+            style: const TextStyle(color: CustomTheme.darkGrey),
           ),
           Container(
             margin: const EdgeInsets.only(top: 10),
@@ -91,11 +96,11 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
                 label: const Text(
                   'О себе',
                   style: TextStyle(
-                    color: darkGrey,
+                    color: CustomTheme.darkGrey,
                   ),
                 ),
                 disabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: darkGrey),
+                  borderSide: const BorderSide(color: CustomTheme.darkGrey),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -111,37 +116,33 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
             child: Row(
               children: [
                 Expanded(
-                  child: Container(
-                    height: buttonHeight,
-                    margin: const EdgeInsets.only(right: 10),
-                    decoration: BoxDecoration(
-                      border: const Border.fromBorderSide(
-                        BorderSide(color: darkGrey),
-                      ),
-                      borderRadius: BorderRadius.circular(buttonBorderRadius),
+                  child: MaterialButton(
+                    onPressed: () => enterChatroom(context, widget.neighbour),
+                    color: null,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: CustomTheme.darkGrey),
+                      borderRadius: BorderRadius.circular(5),
                     ),
-                    child: RawMaterialButton(
-                      onPressed: () => enterChatroom(context, widget.neighbour),
-                      elevation: 0,
-                      child: const Text(
-                        'Написать',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: primaryColor,
-                        ),
+                    elevation: 0,
+                    hoverElevation: 0,
+                    child: const Text(
+                      'Настроить профиль',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: CustomTheme.primaryColor,
                       ),
                     ),
                   ),
                 ),
                 Container(
-                  height: buttonHeight,
-                  width: buttonHeight,
+                  height: 50,
+                  width: 50,
                   decoration: BoxDecoration(
                     border: const Border.fromBorderSide(
-                      BorderSide(color: darkGrey),
+                      BorderSide(color: CustomTheme.darkGrey),
                     ),
-                    borderRadius: BorderRadius.circular(buttonBorderRadius),
+                    borderRadius: BorderRadius.circular(5),
                   ),
                   child: InkWell(
                     onTap: () {
@@ -158,7 +159,7 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
                         : const Icon(
                             Icons.star_border,
                             size: 35,
-                            color: darkGrey,
+                            color: CustomTheme.darkGrey,
                           ),
                   ),
                 ),

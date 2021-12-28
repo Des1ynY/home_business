@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:home_business/ui/components/loading_indicator.dart';
+import 'package:home_business/ui/components/missing_text.dart';
 
-import '/ui/ui_components.dart';
 import '/models/app_user.dart';
 import '/models/chat_model.dart';
 import '/models/neighbour_model.dart';

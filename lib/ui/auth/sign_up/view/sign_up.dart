@@ -1,10 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 
-import '/appdata/consts.dart';
-import '/appdata/funcs.dart';
-import '/ui/auth/address_setting.dart';
-import '/ui/auth/phone_verification.dart';
-import '/ui/auth/user_setting.dart';
+import '/ui/components/custom_button.dart';
+import '/models/app_user.dart';
+import '/services/firebase_auth.dart';
+import '/services/firebase_db.dart';
+import '/appdata/appdata.dart';
+
+part 'address_setting.dart';
+part 'phone_verification.dart';
+part 'user_setting.dart';
 
 final PageController loginPageController = PageController();
 int loginCurrentPage = 0;
@@ -66,7 +73,9 @@ class _SignUpState extends State<SignUp> {
       width: (MediaQuery.of(context).size.width - 60) / 3,
       margin: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
-        color: pos == loginCurrentPage ? primaryColor : Colors.grey.shade300,
+        color: pos == loginCurrentPage
+            ? CustomTheme.primaryColor
+            : Colors.grey.shade300,
         borderRadius: BorderRadius.circular(50),
       ),
     );

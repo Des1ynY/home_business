@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:home_business/appdata/routes.dart';
+import 'package:home_business/appdata/theme.dart';
+import 'package:home_business/ui/components/loading_indicator.dart';
+import 'package:home_business/ui/components/missing_text.dart';
 
 import '/models/neighbour_model.dart';
 import '/services/firebase_db.dart';
 import '/ui/home/orders/user_orders.dart';
-import '/ui/ui_components.dart';
 import '/models/app_user.dart';
-import '/services/router.dart';
-import '/appdata/consts.dart';
 
 class AppUserProfile extends StatefulWidget {
   const AppUserProfile({
@@ -42,7 +44,8 @@ class _AppUserProfileState extends State<AppUserProfile> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _getProfileData(context),
-                const Divider(color: darkGrey, indent: 20, endIndent: 20),
+                const Divider(
+                    color: CustomTheme.darkGrey, indent: 20, endIndent: 20),
                 _getServicesData(context),
               ],
             )
@@ -76,7 +79,7 @@ class _AppUserProfileState extends State<AppUserProfile> {
             child: Text(
               'ул. ${AppUser.street}, ${AppUser.building}-${AppUser.apartment}, подъезд №${AppUser.approach}',
               maxLines: 2,
-              style: const TextStyle(color: darkGrey),
+              style: const TextStyle(color: CustomTheme.darkGrey),
             ),
           ),
           Container(
@@ -86,11 +89,11 @@ class _AppUserProfileState extends State<AppUserProfile> {
                 label: const Text(
                   'О себе',
                   style: TextStyle(
-                    color: darkGrey,
+                    color: CustomTheme.darkGrey,
                   ),
                 ),
                 disabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: darkGrey),
+                  borderSide: const BorderSide(color: CustomTheme.darkGrey),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -101,28 +104,21 @@ class _AppUserProfileState extends State<AppUserProfile> {
               enabled: false,
             ),
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 10, bottom: 10),
-            width: MediaQuery.of(context).size.width,
-            height: buttonHeight,
-            decoration: BoxDecoration(
-              border: const Border.fromBorderSide(
-                BorderSide(color: darkGrey),
-              ),
-              borderRadius: BorderRadius.circular(buttonBorderRadius),
+          MaterialButton(
+            onPressed: () => Get.toNamed(settingsRoute),
+            color: null,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(color: CustomTheme.darkGrey),
+              borderRadius: BorderRadius.circular(5),
             ),
-            child: RawMaterialButton(
-              onPressed: () {
-                Navigator.pushNamed(context, userSettingsRoute);
-              },
-              elevation: 0,
-              child: const Text(
-                'Настроить профиль',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: primaryColor,
-                ),
+            elevation: 0,
+            hoverElevation: 0,
+            child: const Text(
+              'Настроить профиль',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: CustomTheme.primaryColor,
               ),
             ),
           ),

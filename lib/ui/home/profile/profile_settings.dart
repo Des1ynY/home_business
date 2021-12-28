@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
+import '/appdata/theme.dart';
 import '/appdata/funcs.dart';
-import '/appdata/consts.dart';
 import '/models/app_user.dart';
 import '/services/firebase_auth.dart';
 import '/services/firebase_db.dart';
 
-class AppUserSettings extends StatefulWidget {
-  const AppUserSettings({Key? key}) : super(key: key);
+class ProfileSettings extends StatefulWidget {
+  const ProfileSettings({Key? key}) : super(key: key);
 
   @override
-  _AppUserSettingsState createState() => _AppUserSettingsState();
+  _ProfileSettingsState createState() => _ProfileSettingsState();
 }
 
-class _AppUserSettingsState extends State<AppUserSettings> {
+class _ProfileSettingsState extends State<ProfileSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +56,9 @@ class _AppUserSettingsState extends State<AppUserSettings> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
-                  border: Border(bottom: BorderSide(color: borderColor)),
+                  border: Border(
+                    bottom: BorderSide(color: CustomTheme.borderColor),
+                  ),
                 ),
                 child: RawMaterialButton(
                   onPressed: () async {
@@ -67,7 +69,7 @@ class _AppUserSettingsState extends State<AppUserSettings> {
                   child: const Text(
                     'Выйти из аккаунта',
                     style: TextStyle(
-                      color: red,
+                      color: CustomTheme.red,
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
@@ -120,7 +122,9 @@ class _EdittingSettingsFieldState extends State<EdittingSettingsField> {
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.only(top: 10, right: 15, left: 15),
       decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: borderColor)),
+        border: Border(
+          bottom: BorderSide(color: CustomTheme.borderColor),
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -167,12 +171,12 @@ class _EdittingSettingsFieldState extends State<EdittingSettingsField> {
             child: _editing
                 ? const Icon(
                     Icons.done,
-                    color: primaryColor,
+                    color: CustomTheme.primaryColor,
                     size: 25,
                   )
                 : const Icon(
                     Icons.edit,
-                    color: primaryColor,
+                    color: CustomTheme.primaryColor,
                     size: 25,
                   ),
           ),

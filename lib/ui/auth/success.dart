@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-import '/appdata/consts.dart';
-import '/services/router.dart';
+import '/appdata/routes.dart';
+import '/appdata/theme.dart';
 import '/appdata/funcs.dart';
 
-class SuccessLogin extends StatefulWidget {
-  const SuccessLogin({Key? key}) : super(key: key);
+class SuccessPage extends StatefulWidget {
+  const SuccessPage({Key? key}) : super(key: key);
 
   @override
-  _SuccessLoginState createState() => _SuccessLoginState();
+  _SuccessPageState createState() => _SuccessPageState();
 }
 
-class _SuccessLoginState extends State<SuccessLogin> {
+class _SuccessPageState extends State<SuccessPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTap: () {
-          Navigator.pushNamedAndRemoveUntil(
-              context, homescreenRoute, (route) => false);
-        },
+        onTap: () => Get.offNamedUntil(homeRoute, (route) => false),
         child: Container(
           height: getScaffoldHeight(context),
           width: MediaQuery.of(context).size.width,
@@ -46,7 +44,7 @@ class _SuccessLoginState extends State<SuccessLogin> {
               const Text(
                 'Нажмите, чтобы продолжить',
                 style: TextStyle(
-                  color: hintTextColor,
+                  color: CustomTheme.hintTextColor,
                 ),
               ),
             ],
