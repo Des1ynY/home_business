@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class CustomTheme {
   static const Color primaryColor = Color(0xFF37ACA2);
@@ -49,9 +48,7 @@ class CustomTheme {
       ),
     ),
     buttonTheme: ButtonThemeData(
-      height: 50,
-      minWidth: Get.width,
-      buttonColor: primaryColor,
+      height: 48,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5),
       ),

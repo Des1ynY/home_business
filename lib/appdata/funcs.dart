@@ -7,7 +7,7 @@ import 'package:sprintf/sprintf.dart';
 import '/models/app_user.dart';
 import '/models/neighbour_model.dart';
 import '/services/firebase_db.dart';
-import '/ui/home/chat/chat.dart';
+import '/screens/home/chat/chat.dart';
 
 const EdgeInsetsGeometry defaultPadding = EdgeInsets.all(20);
 const EdgeInsetsGeometry paddingWithAppbar =

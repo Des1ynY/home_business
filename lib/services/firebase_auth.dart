@@ -1,26 +1,34 @@
-import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class Auth {
-  static final FirebaseAuth _auth = FirebaseAuth.instance;
+class AuthService {
+  final _auth = FirebaseAuth.instance;
 
-  static FirebaseAuth get auth => _auth;
+  User? get currentUser => _auth.currentUser;
 
-  static Stream<User?> authStateChanges() => _auth.authStateChanges();
+  Stream<User?> get userStream => _auth.authStateChanges();
 
-  static signInWithPhoneAuthCredential(PhoneAuthCredential credential) async {
-    try {
-      return await _auth.signInWithCredential(credential);
-    } on FirebaseException catch (e) {
-      log(e.message!);
-    }
+  Future<void> verifyPhone({
+    required String number,
+    required void Function(PhoneAuthCredential) verificationCompleted,
+    required void Function(FirebaseAuthException) verificationFailed,
+    required void Function(String, int?) codeSent,
+    required void Function(String) codeAutoRetrievalTimeout,
+  }) async {
+    await _auth.verifyPhoneNumber(
+      phoneNumber: number,
+      verificationCompleted: verificationCompleted,
+      verificationFailed: verificationFailed,
+      codeSent: codeSent,
+      codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
+    );
   }
 
-  static signOut() async {
+  Future<bool> signOut() async {
     try {
       await _auth.signOut();
-    } on FirebaseException catch (e) {
-      log(e.message!);
+      return true;
+    } on FirebaseAuthException {
+      return false;
     }
   }
 }

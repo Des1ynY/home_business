@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
 
-import '/ui/auth/welcome/admin.dart';
-import '/ui/auth/sign_in.dart';
-import '/ui/auth/sign_up/view/sign_up.dart';
-import '/ui/auth/success.dart';
-import '/ui/auth/welcome/welcome.dart';
-import '/ui/home/orders/add_order.dart';
-import '/ui/home/profile/profile_settings.dart';
-import '/ui/home/screens.dart';
+import '/screens/auth/welcome/admin.dart';
+import '/screens/auth/sign_in.dart';
+import '/screens/auth/sign_up/sign_up.dart';
+import '/screens/auth/success.dart';
+import '/screens/auth/welcome/welcome.dart';
+import '/screens/home/orders/add_order.dart';
+import '/screens/home/profile/profile_settings.dart';
+import '/screens/home/screens.dart';
 
 const String welcomeRoute = '/welcome';
 const String adminRoute = '/admin';
