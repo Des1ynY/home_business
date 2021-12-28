@@ -30,7 +30,7 @@ class _WelcomeState extends State<Welcome> {
                 WelcomeCover(
                   header: 'Соседи могут быть полезны',
                   text: 'Находите работников среди своих соседей!',
-                  imagePath: 'assets/welcome-1.png',
+                  imagePath: 'assets/img/welcome-1.png',
                   index: 0,
                   color: primaryColor,
                 ),
@@ -38,7 +38,7 @@ class _WelcomeState extends State<Welcome> {
                   header: 'Предлагайте услуги сами',
                   text:
                       'Хорошо готовите кофе или умеете чинить кран? Предложите помощь соседям!',
-                  imagePath: 'assets/welcome-2.png',
+                  imagePath: 'assets/img/welcome-2.png',
                   index: 1,
                   color: Color(0xFF6074F9),
                 ),
@@ -46,7 +46,7 @@ class _WelcomeState extends State<Welcome> {
                   header: 'Знакомьтесь и заводите друзей',
                   text:
                       'Узнавайте соседей ближе, может кто-то станет вашим другом?',
-                  imagePath: 'assets/welcome-3.png',
+                  imagePath: 'assets/img/welcome-3.png',
                   index: 2,
                   color: Color(0xFFF96060),
                 ),

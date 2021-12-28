@@ -69,7 +69,7 @@ class _ChatroomTileState extends State<ChatroomTile> {
               margin: const EdgeInsets.only(right: 10),
               child: CircleAvatar(
                 radius: 35,
-                backgroundImage: const AssetImage('assets/default_ava.png'),
+                backgroundImage: const AssetImage('assets/img/default_ava.png'),
                 foregroundImage: widget.neighbour.imageUrl == 'unknown'
                     ? null
                     : NetworkImage(widget.neighbour.imageUrl),

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:home_business/models/neighbour_model.dart';
 
+import '/models/neighbour_model.dart';
 import '/services/firebase_db.dart';
 import '/ui/home/orders/user_orders.dart';
 import '/ui/ui_components.dart';
@@ -61,7 +61,7 @@ class _AppUserProfileState extends State<AppUserProfile> {
             margin: const EdgeInsets.only(bottom: 10),
             child: CircleAvatar(
               radius: 100,
-              backgroundImage: const AssetImage('assets/default_ava.png'),
+              backgroundImage: const AssetImage('assets/img/default_ava.png'),
               foregroundImage: AppUser.imageUrl == 'unknown'
                   ? null
                   : NetworkImage(AppUser.imageUrl),

@@ -5,7 +5,6 @@ import '/appdata/consts.dart';
 import '/models/app_user.dart';
 import '/services/firebase_auth.dart';
 import '/services/firebase_db.dart';
-import '/services/shared_prefs.dart';
 
 class AppUserSettings extends StatefulWidget {
   const AppUserSettings({Key? key}) : super(key: key);
@@ -62,7 +61,6 @@ class _AppUserSettingsState extends State<AppUserSettings> {
                 child: RawMaterialButton(
                   onPressed: () async {
                     await Auth.signOut();
-                    await LocalDataStorage.deleteUserData();
                     Navigator.pop(context);
                   },
                   elevation: 0,

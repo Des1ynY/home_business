@@ -69,7 +69,7 @@ class _NeighbourProfileState extends State<NeighbourProfile> {
               tag: widget.neighbour.uid,
               child: CircleAvatar(
                 radius: 100,
-                backgroundImage: const AssetImage('assets/default_ava.png'),
+                backgroundImage: const AssetImage('assets/img/default_ava.png'),
                 foregroundImage: widget.neighbour.imageUrl == 'unknown'
                     ? null
                     : NetworkImage(widget.neighbour.imageUrl),

@@ -1,13 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '/services/router.dart';
-import '/ui/ui_components.dart';
 import '/services/firebase_db.dart';
 import '/services/firebase_auth.dart';
-import '/services/shared_prefs.dart';
 import '/appdata/consts.dart';
 import '/appdata/funcs.dart';
 
@@ -27,6 +24,9 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
         child: Container(
           height: getScaffoldHeight(context),
@@ -40,7 +40,6 @@ class _SignInState extends State<SignIn> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const CustomAppBar(),
                     Container(
                       margin: const EdgeInsets.only(top: 40),
                       child: Text(
@@ -223,23 +222,6 @@ class _SignInState extends State<SignIn> {
     User user = userCredential.user!;
 
     if (await UsersDatabase.checkUser(user.uid)) {
-      StreamBuilder(
-        stream: UsersDatabase.getUser(user.uid),
-        builder: (
-          context,
-          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
-        ) {
-          if (snapshot.hasData) {
-            var doc = snapshot.data!.docs.first;
-            Map<String, dynamic> json = doc.data();
-            LocalDataStorage.setUserData(json);
-
-            return Container();
-          } else {
-            return Container();
-          }
-        },
-      );
       Navigator.pushNamedAndRemoveUntil(
           context, homescreenRoute, (route) => false);
     } else {

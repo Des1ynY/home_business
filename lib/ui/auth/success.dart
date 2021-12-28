@@ -31,7 +31,7 @@ class _SuccessLoginState extends State<SuccessLogin> {
               Container(
                 height: 300,
                 margin: const EdgeInsets.only(bottom: 40),
-                child: Image.asset('assets/phone_green.png'),
+                child: Image.asset('assets/img/phone_green.png'),
               ),
               Container(
                 margin: const EdgeInsets.only(bottom: 20),

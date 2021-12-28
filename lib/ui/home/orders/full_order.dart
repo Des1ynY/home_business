@@ -107,7 +107,7 @@ class _FullOrderTileState extends State<FullOrderTile> {
                     child: CircleAvatar(
                       radius: 17,
                       backgroundImage:
-                          const AssetImage('assets/default_ava.png'),
+                          const AssetImage('assets/img/default_ava.png'),
                       foregroundImage: widget.author.imageUrl == 'unknown'
                           ? null
                           : NetworkImage(widget.author.imageUrl),

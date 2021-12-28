@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '/ui/ui_components.dart';
 import '/appdata/consts.dart';
 import '/appdata/funcs.dart';
 import '/ui/auth/address_setting.dart';
@@ -21,16 +20,15 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
         child: Container(
           padding: getSafeAreaPadding(context),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: CustomAppBar(),
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

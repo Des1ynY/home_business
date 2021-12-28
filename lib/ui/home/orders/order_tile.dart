@@ -62,8 +62,8 @@ class _OrderTileState extends State<OrderTile> {
                             margin: const EdgeInsets.only(right: 5),
                             child: CircleAvatar(
                               radius: 12,
-                              backgroundImage:
-                                  const AssetImage('assets/default_ava.png'),
+                              backgroundImage: const AssetImage(
+                                  'assets/img/default_ava.png'),
                               foregroundImage:
                                   widget.author.imageUrl == 'unknown'
                                       ? null

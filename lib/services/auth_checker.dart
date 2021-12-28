@@ -7,7 +7,6 @@ import '/models/app_user.dart';
 import '/services/firebase_db.dart';
 import '/ui/auth/welcome.dart';
 import '/ui/home/screens.dart';
-import '/services/shared_prefs.dart';
 
 class AuthChecker extends StatelessWidget {
   const AuthChecker({Key? key}) : super(key: key);
@@ -27,7 +26,6 @@ class AuthChecker extends StatelessWidget {
             var doc = snapshot.data!.docs.first;
             Map<String, dynamic> json = doc.data();
             AppUser.setUser(json);
-            LocalDataStorage.setUserData(json);
 
             return const HomeScreens();
           } else {

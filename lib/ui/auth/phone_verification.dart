@@ -8,7 +8,6 @@ import '/services/firebase_auth.dart';
 import '/appdata/consts.dart';
 import '/appdata/funcs.dart';
 import '/services/router.dart';
-import '/services/shared_prefs.dart';
 
 class PhoneVerification extends StatefulWidget {
   const PhoneVerification({Key? key}) : super(key: key);
@@ -218,7 +217,6 @@ class _PhoneVerificationState extends State<PhoneVerification> {
       AppUser.uid = user.uid;
 
       await UsersDatabase.setUser(AppUser.uid, AppUser.toJson());
-      LocalDataStorage.setUserData(AppUser.toJson());
       Navigator.pushNamedAndRemoveUntil(
           context, successRoute, (route) => false);
     } else {
