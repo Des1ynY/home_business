@@ -18,7 +18,7 @@ class UsersDatabase {
     await _ref.doc(uid).update(json);
   }
 
-  static setUser(String uid, Map<String, String> json) async {
+  static setUser(String uid, Map<String, dynamic> json) async {
     await _ref.doc(uid).set(json, SetOptions(merge: true));
   }
 

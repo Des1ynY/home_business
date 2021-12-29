@@ -49,7 +49,8 @@ class _AddressSettingState extends State<AddressSetting> {
                   controller: _authController
                       .fieldControllers[FormFieldControllers.city]!,
                   validator: Validator.notEmpty,
-                  action: (_) => Get.focusScope!.requestFocus(_streetNode),
+                  action: (_) =>
+                      FocusScope.of(context).requestFocus(_streetNode),
                 ),
                 SizedBox(
                   height: 20,
@@ -61,7 +62,8 @@ class _AddressSettingState extends State<AddressSetting> {
                       .fieldControllers[FormFieldControllers.street]!,
                   focusNode: _streetNode,
                   validator: Validator.notEmpty,
-                  action: (_) => Get.focusScope!.requestFocus(_buildingNode),
+                  action: (_) =>
+                      FocusScope.of(context).requestFocus(_buildingNode),
                 ),
                 SizedBox(
                   height: 20,
@@ -82,8 +84,8 @@ class _AddressSettingState extends State<AddressSetting> {
                             focusNode: _buildingNode,
                             keyboardType: TextInputType.number,
                             validator: Validator.number,
-                            action: (_) =>
-                                Get.focusScope!.requestFocus(_approachNode),
+                            action: (_) => FocusScope.of(context)
+                                .requestFocus(_approachNode),
                           ),
                         ],
                       ),
@@ -101,8 +103,8 @@ class _AddressSettingState extends State<AddressSetting> {
                             focusNode: _approachNode,
                             keyboardType: TextInputType.number,
                             validator: Validator.number,
-                            action: (_) =>
-                                Get.focusScope!.requestFocus(_appartmentNode),
+                            action: (_) => FocusScope.of(context)
+                                .requestFocus(_appartmentNode),
                           ),
                         ],
                       ),
@@ -140,21 +142,9 @@ class _AddressSettingState extends State<AddressSetting> {
               }
             },
           ),
-          GestureDetector(
-            onTap: () => Get.toNamed(signInRoute),
-            child: SizedBox(
-              height: 40,
-              child: Center(
-                child: Text(
-                  'Уже есть аккаунт?',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: CustomTheme.textColor,
-                  ),
-                ),
-              ),
-            ),
+          CustomTextButton(
+            text: 'Уже есть аккаунт?',
+            action: () => Get.toNamed(signInRoute),
           ),
         ],
       ),

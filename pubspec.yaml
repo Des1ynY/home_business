@@ -21,6 +21,7 @@ dependencies:
   fluttertoast: any
   flutter_snake_navigationbar: any
   sprintf: any
+  internet_connection_checker: any
 
 
 dev_dependencies:

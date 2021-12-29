@@ -46,7 +46,8 @@ class _UserSettingsState extends State<UserSettings> {
                   controller: _authController
                       .fieldControllers[FormFieldControllers.name]!,
                   validator: Validator.name,
-                  action: (_) => Get.focusScope!.requestFocus(_surnameNode),
+                  action: (_) =>
+                      FocusScope.of(context).requestFocus(_surnameNode),
                 ),
                 SizedBox(
                   height: 20,
@@ -58,7 +59,7 @@ class _UserSettingsState extends State<UserSettings> {
                       .fieldControllers[FormFieldControllers.surname]!,
                   focusNode: _surnameNode,
                   validator: Validator.name,
-                  action: (_) => Get.focusScope!.requestFocus(_bioNode),
+                  action: (_) => FocusScope.of(context).requestFocus(_bioNode),
                 ),
                 SizedBox(
                   height: 20,
@@ -106,21 +107,9 @@ class _UserSettingsState extends State<UserSettings> {
               }
             },
           ),
-          GestureDetector(
-            onTap: () => _authController.prevPage(),
-            child: SizedBox(
-              height: 40,
-              child: Center(
-                child: Text(
-                  'Назад',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: CustomTheme.textColor,
-                  ),
-                ),
-              ),
-            ),
+          CustomTextButton(
+            text: 'Назад',
+            action: () => _authController.prevPage(),
           ),
         ],
       ),

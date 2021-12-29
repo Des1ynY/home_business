@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 
 import '/services/validators.dart';
 import '/controllers/auth_controller.dart';
+import '/screens/components/loading_indicator.dart';
+import '/screens/components/custom_text_button.dart';
 import '/screens/components/form_field.dart';
 import '/screens/components/form_field_label.dart';
 import '/screens/components/custom_button.dart';

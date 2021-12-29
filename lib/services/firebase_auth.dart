@@ -23,12 +23,22 @@ class AuthService {
     );
   }
 
-  Future<bool> signOut() async {
-    try {
-      await _auth.signOut();
-      return true;
-    } on FirebaseAuthException {
-      return false;
-    }
+  Future<UserCredential> signInWithPhoneAuthCredential(
+      PhoneAuthCredential phoneAuthCredential) async {
+    return await _auth.signInWithCredential(phoneAuthCredential);
+  }
+
+  PhoneAuthCredential getPhoneAuthCredential(
+    String verificationId,
+    String otp,
+  ) {
+    return PhoneAuthProvider.credential(
+      verificationId: verificationId,
+      smsCode: otp,
+    );
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
   }
 }

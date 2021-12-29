@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 
 import '/appdata/appdata.dart';
+import '/screens/components/custom_text_button.dart';
 
 part 'welcome_cover.dart';
 
@@ -66,17 +67,9 @@ class Welcome extends StatelessWidget {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () => Get.toNamed(adminRoute),
-                  child: SizedBox(
-                    height: 40,
-                    child: Center(
-                      child: Text(
-                        'Я администратор',
-                        style: Theme.of(context).textTheme.button,
-                      ),
-                    ),
-                  ),
+                CustomTextButton(
+                  text: 'Я администратор',
+                  action: () => Get.toNamed(adminRoute),
                 ),
               ],
             ),

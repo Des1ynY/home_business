@@ -11,7 +11,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   final AuthController _authController = AuthController.to;
 
-  final FocusNode _otpNode = FocusNode();
+  final FocusNode _phoneNode = FocusNode(), _otpNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +41,16 @@ class _PhoneVerificationState extends State<PhoneVerification> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 FormFieldLabel(label: 'Номер телефона'),
-                CustomFormField(
-                  hintText: '+7(900)-000-00-00',
-                  controller: _authController
-                      .fieldControllers[FormFieldControllers.phone]!,
-                  keyboardType: TextInputType.number,
-                  validator: Validator.number,
-                  action: null,
+                Obx(
+                  () => CustomFormField(
+                    hintText: '+7(900)-000-00-00',
+                    controller: _authController
+                        .fieldControllers[FormFieldControllers.phone]!,
+                    focusNode: _phoneNode,
+                    keyboardType: TextInputType.phone,
+                    validator: Validator.phone,
+                    enabled: !_authController.codeSend.value,
+                  ),
                 ),
                 Obx(
                   () => _authController.codeSend.value
@@ -66,8 +69,24 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                                   .fieldControllers[FormFieldControllers.otp]!,
                               focusNode: _otpNode,
                               keyboardType: TextInputType.number,
-                              validator: Validator.notEmpty,
-                              action: null,
+                              validator: Validator.number,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                CustomTextButton(
+                                  text: 'Изменить номер',
+                                  action: () {
+                                    _authController.changeNumber();
+                                    FocusScope.of(context)
+                                        .requestFocus(_phoneNode);
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                ),
+                              ],
                             ),
                           ],
                         )
@@ -78,30 +97,36 @@ class _PhoneVerificationState extends State<PhoneVerification> {
               ],
             ),
           ),
-          SizedBox(
-            height: 40,
-          ),
           Obx(
-            () => CustomButton(
-              label: 'Зарегистрироваться',
-              action: _authController.codeSend.value ? null : null,
+            () => MaterialButton(
+              onPressed: _authController.codeSend.value
+                  ? () {
+                      if (_formKey.currentState!.validate())
+                        _authController.signUpWithOtp();
+                    }
+                  : () {
+                      if (_formKey.currentState!.validate()) {
+                        _authController.signUp();
+                        FocusScope.of(context).requestFocus(_otpNode);
+                      }
+                    },
+              elevation: 0,
+              highlightElevation: 0,
+              color: CustomTheme.primaryColor,
+              minWidth: Get.width,
+              child: _authController.isLoading.value
+                  ? LoadingIndicator()
+                  : Text(
+                      _authController.codeSend.value
+                          ? 'Зарегистрироваться'
+                          : 'Подтвердить',
+                      style: Get.textTheme.button,
+                    ),
             ),
           ),
-          GestureDetector(
-            onTap: () => _authController.prevPage(),
-            child: SizedBox(
-              height: 40,
-              child: Center(
-                child: Text(
-                  'Назад',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: CustomTheme.textColor,
-                  ),
-                ),
-              ),
-            ),
+          CustomTextButton(
+            text: 'Назад',
+            action: () => _authController.prevPage(),
           ),
         ],
       ),

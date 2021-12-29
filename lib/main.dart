@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import 'controllers/network_controller.dart';
 import 'controllers/auth_controller.dart';
 import 'appdata/appdata.dart';
 
@@ -17,6 +18,7 @@ Future main() async {
 class HomeBusiness extends StatelessWidget {
   HomeBusiness({Key? key}) : super(key: key);
 
+  final NetworkController networkController = Get.put(NetworkController());
   final AuthController authController = Get.put(AuthController());
 
   @override
@@ -25,7 +27,7 @@ class HomeBusiness extends StatelessWidget {
       title: 'Home Business',
       theme: CustomTheme.mainTheme,
       getPages: getxRoutes,
-      initialRoute: welcomeRoute,
+      initialRoute: authController.authChecker(authController.isLogged.value),
     );
   }
 }
